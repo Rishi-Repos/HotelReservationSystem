@@ -13,3 +13,14 @@ body {
 main {
   padding: 12px;
 }
+
+button {
+  background: url('./assets/stone-button.png');
+  opacity: 1;
+  transition: 0.3s linear;
+}
+
+button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}

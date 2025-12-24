@@ -3,7 +3,9 @@
   <div>
     <img [src]="room.imageUrl" [alt]="room.description" />
     <p>max occupancy of {{ room.maxNumberOfGuests }} guests</p>
-    <p>${{ room.price }}</p>
-    <button>Select</button>
+    <div>
+      <p>${{ room.price }}</p>
+      <button>Select</button>
+    </div>
   </div>
 </section>

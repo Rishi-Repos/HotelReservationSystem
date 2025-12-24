@@ -1,0 +1,27 @@
+section {
+  border: 1px black solid;
+  background-color: #966f33;
+  width: 70%;
+  margin: 10px;
+}
+
+div {
+  background-color: #966f33;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+p {
+  background-color: #966f33;
+}
+
+img {
+  width: 30%;
+}
+
+button {
+  height: 50px;
+  margin-left: 5px;
+}
