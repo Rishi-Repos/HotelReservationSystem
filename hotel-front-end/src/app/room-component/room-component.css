@@ -17,6 +17,10 @@ p {
   background-color: #966f33;
 }
 
+.room__unavailable {
+  color: #ff9d9c;
+}
+
 img {
   width: 30%;
 }
