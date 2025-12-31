@@ -67,13 +67,6 @@ CREATE TABLE room(
 	-- availability is a keyword in SQL
 )
 
--- Junction Table --
-CREATE TABLE guest_payment(
-	guest_id INT NOT NULL REFERENCES guest(guest_id),
-	payment_info_id INT NOT NULL REFERENCES payment_info(payment_info_id),
-	PRIMARY KEY (guest_id, payment_info_id)
-);
-
 -- Lookup Table --
 CREATE TABLE payment_info(
 
