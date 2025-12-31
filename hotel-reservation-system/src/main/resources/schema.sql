@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS
 	guest_payment, 
 	payment_info, 
 	room, 
-	room_description, 
+	room_description,
+	room_colors, 
 	transactions;
 
 DROP TYPE IF EXISTS pay_status CASCADE;
