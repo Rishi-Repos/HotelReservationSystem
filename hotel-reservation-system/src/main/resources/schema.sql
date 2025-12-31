@@ -11,17 +11,18 @@ DROP TABLE IF EXISTS
 
 DROP TYPE IF EXISTS pay_status CASCADE;
 
+-- Only allow the following employee roles:
+CREATE TYPE emp_role AS ENUM ('admin', 'manager');
+
 CREATE TABLE employee(
 	
 	employee_id SERIAL PRIMARY KEY,
-	employee_role VARCHAR(20) NOT NULL,
-	-- role is a keyword in SQL
-	-- can be admin or hotel manager
-	home_address VARCHAR(255) NOT NULL,
+	employee_role emp_role NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	first_name VARCHAR(255) NOT NULL,
+	middle_name VARCHAR(255),
 	last_name VARCHAR(255) NOT NULL,
-	middle_name VARCHAR(255)
+	home_address VARCHAR(255) NOT NULL
 );
 
 -- Lookup Table --
