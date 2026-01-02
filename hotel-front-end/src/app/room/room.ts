@@ -5,26 +5,38 @@
 export class Room {
   //properties
   id: number;
-  description: string;
+  bedStyle: string;
+  adaCompliant: boolean;
+  isSmoking: boolean;
+  // description: string;
   imageUrl: string;
-  maxNumberOfGuests: number;
+  maxOccupancy: number;
   price: number;
   isAvailable: boolean;
+  roomColors: string;
 
   //constructor
   constructor(
     id: number,
-    description: string,
+    // description: string,
+    bedStyle: string,
+    adaCompliant: boolean,
+    isSmoking: boolean,
     imageUrl: string,
-    maxNumberOfGuests: number,
+    maxOccupancy: number,
     price: number,
-    isAvailable: boolean
+    isAvailable: boolean,
+    roomColors: string
   ) {
     this.id = id;
-    this.description = description;
+    // this.description = description;
+    this.bedStyle = bedStyle;
+    this.adaCompliant = adaCompliant;
+    this.isSmoking = isSmoking;
     this.imageUrl = imageUrl;
-    this.maxNumberOfGuests = maxNumberOfGuests;
+    this.maxOccupancy = maxOccupancy;
     this.price = price;
     this.isAvailable = isAvailable;
+    this.roomColors = roomColors;
   }
 }

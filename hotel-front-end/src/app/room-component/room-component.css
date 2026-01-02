@@ -1,14 +1,18 @@
 section {
+  padding: 0 10px;
   border: 1px black solid;
   background-color: #966f33;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 div {
   background-color: #966f33;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: 10px;
+  justify-content: space-around;
+  margin: 10px 0;
 }
 
 h3 {
@@ -18,7 +22,6 @@ h3 {
 p {
   background-color: #966f33;
   margin: 0;
-  max-width: 30%;
 }
 
 .room__unavailable {
@@ -27,8 +30,10 @@ p {
 }
 
 img {
-  width: 200px;
-  height: 125px;
+  width: 80%;
+  margin: 0 auto;
+  min-height: 150px;
+  max-height: 250px;
 }
 
 button {

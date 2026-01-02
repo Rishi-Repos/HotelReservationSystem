@@ -4,5 +4,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: 70%;
+  width: 50%;
+  margin-left: 10px;
+  margin-top: 10px;
 }
