@@ -7,7 +7,7 @@
     <div>
       <p>
         {{ selectedRooms()[i].bedStyle }},<br />
-        {{ selectedRooms()[i].roomColors }} style
+        {{ selectedRooms()[i].roomColor }} style
       </p>
 
       @if (selectedRooms()[i].isSmoking) {
@@ -25,6 +25,12 @@
     {{ selectedRooms()[i].price }} Galleons
   </div>
   } @else {
-  <p class="placeholder">Please select a room</p>
+  <p>Please select a room</p>
   } }
+  <p class="total">Current Total: {{ totalPrice }} Galleons</p>
+  <p class="tax-statement">taxes and fees included</p>
+  <button [disabled]="!bookingButtonAvailable()">Book</button>
+  @if (!bookingButtonAvailable()) {
+  <p class="current-selection__error">Please select {{ mockBooking.numberOfRooms }} rooms</p>
+  }
 </section>

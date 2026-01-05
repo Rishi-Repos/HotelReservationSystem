@@ -35,9 +35,6 @@ export class HomepageComponent {
 
   addRoomToHomepage() {
     this.httpService.getAllRoomDescriptions().subscribe((data) => {
-      if (data.body) {
-        console.log(data?.body[0]);
-      }
       const mappedRooms =
         data.body?.map(
           (newRoom) =>

@@ -35,6 +35,21 @@ export class CurrentSelectionComponent {
       .subscribe((rooms) => this.selectedRooms.set(rooms));
   }
 
+  get totalPrice(): number {
+    return this.selectedRooms().reduce((sum, room) => sum + room.price, 0);
+  }
+
+  // Checks if the correct number of rooms have been selected for booking.
+  bookingButtonAvailable(): boolean {
+    console.log(
+      this.selectedRooms().length,
+      this.mockBooking.numberOfRooms,
+      this.mockBooking.numberOfRooms === this.selectedRooms().length
+    );
+    console.log(this.mockBooking.numberOfRooms);
+    return this.selectedRooms().length === this.mockBooking.numberOfRooms;
+  }
+
   // Mock data that will need to be updated.
   mockBooking = {
     numberOfRooms: 2,
