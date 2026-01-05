@@ -1,0 +1,30 @@
+<section>
+  @for (slot of roomSlots(); track $index; let i = $index) {
+  <h3>Room {{ i + 1 }}: {{ mockBooking.numberOfRooms }} guests</h3>
+
+  @if (selectedRooms()[i]) {
+  <div class="current-selection__div">
+    <div>
+      <p>
+        {{ selectedRooms()[i].bedStyle }},<br />
+        {{ selectedRooms()[i].roomColors }} style
+      </p>
+
+      @if (selectedRooms()[i].isSmoking) {
+      <p>Smoking</p>
+      } @else {
+      <p>Non-Smoking</p>
+      }
+
+      <p>
+        Max occupancy:
+        {{ selectedRooms()[i].maxOccupancy }} guests
+      </p>
+    </div>
+
+    {{ selectedRooms()[i].price }} Galleons
+  </div>
+  } @else {
+  <p class="placeholder">Please select a room</p>
+  } }
+</section>

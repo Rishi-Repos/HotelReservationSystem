@@ -1,0 +1,30 @@
+section {
+  border: 1px black solid;
+  background-color: #966f33;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+h3 {
+  background-color: #966f33;
+}
+
+div {
+  background-color: #966f33;
+  margin: 5px;
+}
+
+.current-selection__div {
+  border: 1px black solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+p {
+  background-color: #966f33;
+  padding: 10px;
+}

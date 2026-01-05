@@ -3,6 +3,7 @@ import { RoomComponent } from '../room-component/room-component';
 import { Room } from '../room/room';
 import { CommonModule } from '@angular/common';
 import { HttpService } from '../services/http-service';
+import { CurrentSelectionComponent } from '../current-selection-component/current-selection-component';
 
 /**
  * The Homepage component is the first page that guests will see when entering the website. It pulls a list of rooms from
@@ -13,7 +14,7 @@ import { HttpService } from '../services/http-service';
 @Component({
   selector: 'app-homepage-component',
   standalone: true,
-  imports: [CommonModule, RoomComponent],
+  imports: [CommonModule, RoomComponent, CurrentSelectionComponent],
   templateUrl: './homepage-component.html',
   styleUrl: './homepage-component.css',
 })
@@ -26,7 +27,6 @@ export class HomepageComponent {
 
   addRoomToHomepage() {
     this.httpService.getAllRooms().subscribe((data) => {
-      console.log(data.body);
       const mappedRooms =
         data.body?.map(
           (newRoom) =>
