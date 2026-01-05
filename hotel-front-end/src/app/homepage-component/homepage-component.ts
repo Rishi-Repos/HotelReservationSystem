@@ -21,12 +21,23 @@ import { RoomDescriptionComponent } from '../room-description-component/room-des
 export class HomepageComponent {
   constructor(private httpService: HttpService) {
     this.addRoomToHomepage();
+    this.getAvailableRooms();
   }
 
   rooms = signal<RoomDescription[]>([]);
 
+  getAvailableRooms() {
+    const currentDate: Date = new Date();
+    this.httpService.getAllAvailableRooms(currentDate).subscribe((data) => {
+      console.log(data);
+    });
+  }
+
   addRoomToHomepage() {
-    this.httpService.getAllRooms().subscribe((data) => {
+    this.httpService.getAllRoomDescriptions().subscribe((data) => {
+      if (data.body) {
+        console.log(data?.body[0]);
+      }
       const mappedRooms =
         data.body?.map(
           (newRoom) =>
@@ -35,11 +46,11 @@ export class HomepageComponent {
               newRoom.bedStyle,
               newRoom.adaCompliant,
               newRoom.isSmoking,
-              newRoom.imageUrl,
+              newRoom.roomImage,
               newRoom.maxOccupancy,
               newRoom.price,
               true,
-              newRoom.roomColors
+              newRoom.roomColor
             )
         ) || [];
       this.rooms.set(mappedRooms);

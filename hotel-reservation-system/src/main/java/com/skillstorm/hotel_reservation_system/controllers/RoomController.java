@@ -54,7 +54,7 @@ public class RoomController {
 
     // accepts a LocalDate parameter and returns all rooms that are available for
     // that date.
-    @GetMapping("/dates")
+    @GetMapping("/availability")
     public ResponseEntity<List<RoomDto>> getAvailableRooms(@RequestParam LocalDate date) {
         try {
             List<RoomDto> rooms = roomService.findAllAvailableRooms(date);

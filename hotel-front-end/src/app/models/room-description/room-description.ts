@@ -8,11 +8,11 @@ export class RoomDescription {
   bedStyle: string;
   adaCompliant: boolean;
   isSmoking: boolean;
-  imageUrl: string;
+  roomImage: string;
   maxOccupancy: number;
   price: number;
   isAvailable: boolean;
-  roomColors: string;
+  roomColor: string;
 
   //constructor
   constructor(
@@ -20,20 +20,20 @@ export class RoomDescription {
     bedStyle: string,
     adaCompliant: boolean,
     isSmoking: boolean,
-    imageUrl: string,
+    roomImage: string,
     maxOccupancy: number,
     price: number,
     isAvailable: boolean,
-    roomColors: string
+    roomColor: string
   ) {
     this.id = id;
     this.bedStyle = bedStyle;
     this.adaCompliant = adaCompliant;
     this.isSmoking = isSmoking;
-    this.imageUrl = imageUrl;
+    this.roomImage = roomImage;
     this.maxOccupancy = maxOccupancy;
     this.price = price;
     this.isAvailable = isAvailable;
-    this.roomColors = roomColors;
+    this.roomColor = roomColor;
   }
 }

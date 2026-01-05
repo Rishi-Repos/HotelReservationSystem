@@ -32,6 +32,7 @@ p {
 img {
   width: 80%;
   margin: 0 auto;
+  background-color: #966f33;
   min-height: 150px;
   max-height: 250px;
 }

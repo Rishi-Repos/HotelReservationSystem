@@ -19,6 +19,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/rooms").permitAll()
                         // Allows all GET method requests to the /rooms endpoint.
 
+                        .requestMatchers(HttpMethod.GET, "/rooms/availability").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/rooms").permitAll()
                         // Allows all POST method requests to the /rooms endpoint.
 
