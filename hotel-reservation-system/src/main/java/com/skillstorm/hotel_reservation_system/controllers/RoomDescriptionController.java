@@ -2,6 +2,7 @@ package com.skillstorm.hotel_reservation_system.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +41,23 @@ public class RoomDescriptionController {
     }
 
     @GetMapping("/availability")
-    public ResponseEntity<List<RoomDescription>> getAvailableRoomDescriptions(@RequestParam LocalDate date) {
+    public ResponseEntity<List<RoomDescription>> getAllAvailableRoomDescriptions(@RequestParam LocalDate date) {
         try {
-            List<RoomDescription> roomDescriptions = roomDescriptionService.findAvailableRoomDescriptions(date);
+            List<RoomDescription> roomDescriptions = roomDescriptionService.findAllAvailableRoomDescriptions(date);
             return new ResponseEntity<>(roomDescriptions, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
+        }
+    }
+
+    @GetMapping("/room-available")
+    public ResponseEntity<Boolean> getAvailableRoomDescription(@RequestParam LocalDate date,
+            long roomDescriptionId) {
+        try {
+            boolean descriptionAvailable = roomDescriptionService.findAvailableRoomDescription(
+                    roomDescriptionId,
+                    date);
+            return new ResponseEntity<>(descriptionAvailable, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
         }

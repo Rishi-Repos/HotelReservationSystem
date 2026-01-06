@@ -2,7 +2,7 @@
   <section class="homepage__room__section">
     <h2>Rooms</h2>
     <div class="homepage__rooms">
-      @for (room of rooms(); track room.id) {
+      @for (room of roomDescriptions(); track room.id) {
       <app-room-description-component [room]="room"></app-room-description-component>
       }
     </div>

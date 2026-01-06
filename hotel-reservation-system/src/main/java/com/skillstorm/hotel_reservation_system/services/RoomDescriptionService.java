@@ -32,7 +32,7 @@ public class RoomDescriptionService {
         return roomDescriptionRepository.findById((int) id);
     }
 
-    public List<RoomDescription> findAvailableRoomDescriptions(LocalDate date) {
+    public List<RoomDescription> findAllAvailableRoomDescriptions(LocalDate date) {
 
         List<Room> foundRooms = roomService.findAllAvailableRooms(date);
 
@@ -45,6 +45,13 @@ public class RoomDescriptionService {
         }
 
         return roomDescriptions;
+    }
+
+    public boolean findAvailableRoomDescription(long id, LocalDate date) {
+
+        return roomService.findAllAvailableRooms(date).stream()
+                .map(Room::getRoomDescription)
+                .anyMatch(rd -> rd.getId() == id);
     }
 
     // Saves a room to the database and returns the newly created room.

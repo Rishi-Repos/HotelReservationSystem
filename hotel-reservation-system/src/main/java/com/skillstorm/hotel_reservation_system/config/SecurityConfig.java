@@ -27,6 +27,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/room-descriptions").permitAll()
                         // Allows all GET method requests to the /room-descriptions endpoint.
 
+                        .requestMatchers(HttpMethod.GET, "/room-descriptions/**").permitAll()
+                        // Allows all GET method requests to the /room-descriptions endpoint.
+
                         .requestMatchers(HttpMethod.POST, "/room-descriptions").permitAll()
                         // Currently allows all POST method requests to the /room-description endpoint.
                         // This will need to be changed later to role-specific
