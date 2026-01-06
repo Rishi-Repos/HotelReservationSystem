@@ -4,10 +4,4 @@ package com.skillstorm.hotel_reservation_system.enums;
 // If more options get added later, this can be easily changed just by adding more options.
 public enum RoomColors {
     Griffindor, Hufflepuff, Ravenclaw, Slytherin;
-
-    private String roomColor;
-
-    public String getRoomColor() {
-        return roomColor;
-    }
 }

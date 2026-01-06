@@ -39,20 +39,10 @@ CREATE TABLE guest(
 );
 
 -- Lookup Table --
-CREATE TABLE room_colors (
-	room_colors_id SERIAL PRIMARY KEY,
-	name VARCHAR(255)
-);
-
--- Inserts the available room types into the table
-INSERT INTO room_colors (name)
-VALUES ('Griffindor'), ('Slytherin'), ('Hufflepuff'), ('Ravenclaw');
-
--- Lookup Table --
 CREATE TABLE room_description (
 	room_description_id SERIAL PRIMARY KEY,
-	room_colors INT NOT NULL REFERENCES room_colors(room_colors_id),
-	-- References the room_colors (room_colors_id) property for the information in this entity
+	room_colors VARCHAR(50) NOT NULL,
+	-- References the room_colors enum value.
 	max_occupancy INT NOT NULL,
 	is_smoking BOOLEAN NOT NULL,
 	ada_compliant BOOLEAN NOT NULL,
