@@ -10,22 +10,18 @@ DROP TABLE IF EXISTS
 	transactions;
 
 DROP TYPE IF EXISTS pay_status CASCADE;
-DROP TYPE IF EXISTS emp_role CASCADE;
-
--- Only allow the following employee roles:
-CREATE TYPE emp_role AS ENUM ('admin', 'manager');
 
 CREATE TABLE employee(
 	
 	employee_id SERIAL PRIMARY KEY,
-	employee_role emp_role NOT NULL,
+	employee_role VARCHAR(20) NOT NULL,
+	-- role is a keyword in SQL
+	-- can be admin or hotel manager
+	home_address VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	first_name VARCHAR(255) NOT NULL,
-	middle_name VARCHAR(255),
 	last_name VARCHAR(255) NOT NULL,
-	home_address VARCHAR(255) NOT NULL,
-	phone_number NUMERIC(10)
-	-- 10-digit number (no country codes in the wizarding world)
+	middle_name VARCHAR(255)
 );
 
 -- Lookup Table --
@@ -43,20 +39,10 @@ CREATE TABLE guest(
 );
 
 -- Lookup Table --
-CREATE TABLE room_colors (
-	room_colors_id SERIAL PRIMARY KEY,
-	name VARCHAR(255)
-);
-
--- Inserts the available room types into the table
-INSERT INTO room_colors (name)
-VALUES ('Griffindor'), ('Slytherin'), ('Hufflepuff'), ('Ravenclaw');
-
--- Lookup Table --
 CREATE TABLE room_description (
 	room_description_id SERIAL PRIMARY KEY,
-	room_colors INT NOT NULL REFERENCES room_colors(room_colors_id),
-	-- References the room_colors (room_colors_id) property for the information in this entity
+	room_colors VARCHAR(50) NOT NULL,
+	-- References the room_colors enum value.
 	max_occupancy INT NOT NULL,
 	is_smoking BOOLEAN NOT NULL,
 	ada_compliant BOOLEAN NOT NULL,
@@ -114,8 +100,8 @@ CREATE TABLE booking(
 	-- this keeps a history of at what price a room was booked in case room price changes later
 	-- in galleons (signed integer, no decimals unless dealing with sickles and knuts) 
 	number_of_guests NUMERIC(1) NOT NULL,
-	email_on_booking VARCHAR(255) NOT NULL,
 	name_on_booking VARCHAR(255) NOT NULL,
+	email_on_booking VARCHAR(255) NOT NULL,
 	phone_on_booking NUMERIC(10) NOT NULL,
 	guest_id INT NOT NULL REFERENCES guest(guest_id),
 	employee_id INT NOT NULL REFERENCES employee(employee_id),

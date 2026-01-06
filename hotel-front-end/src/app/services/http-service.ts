@@ -8,7 +8,6 @@ import { Room } from '../models/room/room';
   providedIn: 'root',
 })
 export class HttpService {
-  constructor(private http: HttpClient) {}
   baseURL: string = 'http://localhost:8080/';
 
   getAllRooms(): Observable<HttpResponse<Room[]>> {
