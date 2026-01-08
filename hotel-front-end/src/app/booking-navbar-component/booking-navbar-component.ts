@@ -32,18 +32,10 @@ export class BookingNavbarComponent {
     return this.findRoomsForm.get('rooms') as FormArray;
   }
 
-  // Method to create a new form field group (e.g., label/value pair)
-  private createRoomGroup(): FormGroup {
-    return this.fb.group({
-      label: ['Room '+ this.rooms.length, Validators.required],
-      value: ['', Validators.required]
-    });
-  }
-
   // Method called when the "Add Room" button is clicked
   addRoom(): void {
     if(this.rooms.length<4){
-      this.rooms.push(this.createRoomGroup());
+      this.rooms.push(this.fb.control(1, Validators.required));
     }
   }
 
@@ -52,7 +44,7 @@ export class BookingNavbarComponent {
     this.rooms.removeAt(index);
   }
 
-  onSubmit(): void {
+  submitfindRoomsForm(): void {
     console.log(this.findRoomsForm.value);
   }
 }
