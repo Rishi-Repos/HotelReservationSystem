@@ -1,3 +1,5 @@
+<!-- Allow users to specify when they want to visit and their room requirements -->
+
 <nav>
     <h3>Start a new booking</h3>
     <div id="imageAndFormDiv">
@@ -24,6 +26,7 @@
                         <button id="'removeRoom-' + $index" class="removeRoomButtons" (click)="removeRoom($index)">Remove</button>
                     </div>
                 }
+                <!-- Only allow upto four rooms-->
                 @if (rooms.length < 4) {
                     <button value="Add Room" (click)="addRoom()" id="addRoomButton">Add Room</button>
                 } @else{

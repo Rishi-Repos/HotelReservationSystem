@@ -34,6 +34,7 @@ export class BookingNavbarComponent {
 
   // Method called when the "Add Room" button is clicked
   addRoom(): void {
+    //only allow up to four rooms
     if(this.rooms.length<4){
       this.rooms.push(this.fb.control(1, Validators.required));
     }
@@ -44,6 +45,7 @@ export class BookingNavbarComponent {
     this.rooms.removeAt(index);
   }
 
+  // to be connected with rooms component
   submitfindRoomsForm(): void {
     console.log(this.findRoomsForm.value);
   }
