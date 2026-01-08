@@ -33,10 +33,10 @@ public class EmployeeService {
     }
 
     // Creates a new employee.
-    // An employee must have ttb@google.com in their email address. If it does not,
+    // An employee must have ttb@gmail.com in their email address. If it does not,
     // it will be created as a guest.
     public Employee createEmployee(Employee employee) {
-        if (employee.getEmail().contains("ttb@google.com")) {
+        if (employee.getEmail().contains("ttb@gmail.com")) {
             return employeeRepository.save(employee);
         }
         if (!(employee.getRole() == null)) {

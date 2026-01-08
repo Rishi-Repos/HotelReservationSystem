@@ -17,12 +17,6 @@ export class HeaderComponent {
     window.location.href = 'http://localhost:8080/oauth2/authorization/google';
   }
 
-  checkLogin() {
-    this.httpService.loginEmployee('matthew.wright.ttb@google.com').subscribe((data) => {
-      console.log(data);
-    });
-  }
-
   getLoginDetails() {
     this.httpService.getCredentials().subscribe((data) => {
       console.log(data);
