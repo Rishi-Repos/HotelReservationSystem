@@ -1,5 +1,7 @@
 package com.skillstorm.hotel_reservation_system.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -7,6 +9,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.skillstorm.hotel_reservation_system.services.CustomEmployeeLoginService;
 
@@ -40,7 +43,6 @@ public class SecurityConfig {
                         // Currently allows all POST method requests to the /room-description endpoint.
                         // This will need to be changed later to role-specific
 
-                        .requestMatchers(HttpMethod.GET, "/employees/user").permitAll()
                         .requestMatchers(HttpMethod.GET, "/employees/**").permitAll()
                         // Allows all GET method requests to the /employees endpoint.
 
@@ -66,7 +68,15 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType("application/json");
                             response.getWriter().write("{\"error\": \"forbidden\"}");
-                        }));
+                        }))
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://localhost:4200"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(List.of("*"));
+                    return config;
+                }));
         return http.build();
     }
 }

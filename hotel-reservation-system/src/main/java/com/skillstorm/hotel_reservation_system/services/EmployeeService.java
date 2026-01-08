@@ -26,7 +26,7 @@ public class EmployeeService {
     // Finds a specific employee by their email address
     public Employee findEmployeeByEmail(String email) {
         Employee foundEmployee = employeeRepository.findByEmail(email);
-        if (foundEmployee.getId() > 0) {
+        if (foundEmployee != null) {
             return foundEmployee;
         }
         throw new IllegalArgumentException("Employee does not exist");

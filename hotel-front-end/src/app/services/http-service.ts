@@ -21,12 +21,18 @@ export class HttpService {
     });
   }
 
-  getEmployee(email: string): Observable<HttpResponse<Employee>> {
+  loginEmployee(email: string): Observable<HttpResponse<Employee>> {
     return this.http.get<Employee>(this.baseURL + 'employees/user', {
       observe: 'response',
       params: {
         email: email,
       },
+    });
+  }
+
+  getCredentials(): Observable<Employee> {
+    return this.http.get<Employee>(this.baseURL + 'employees/credentials', {
+      withCredentials: true,
     });
   }
 }

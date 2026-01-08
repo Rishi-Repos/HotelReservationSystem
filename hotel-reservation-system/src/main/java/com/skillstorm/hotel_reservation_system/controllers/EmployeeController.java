@@ -1,6 +1,7 @@
 package com.skillstorm.hotel_reservation_system.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Employee> getEmployeeById(@RequestParam String email) {
+    public ResponseEntity<Employee> getEmployeeByEmail(@RequestParam String email) {
         try {
             Employee foundEmployee = employeeService.findEmployeeByEmail(email);
             return new ResponseEntity<>(foundEmployee, HttpStatus.CREATED);
@@ -51,10 +52,16 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/login")
-    public OidcUser getUser(@AuthenticationPrincipal OidcUser principal) {
-        System.out.println(principal);
-        return principal;
+    @GetMapping("/credentials")
+    public Employee getUser(@AuthenticationPrincipal OidcUser principal) {
+        if (principal == null) {
+            throw new IllegalArgumentException("Not logged in");
+        }
+        Employee foundEmployee = employeeService.findEmployeeByEmail(principal.getEmail());
+        if (foundEmployee != null) {
+            return foundEmployee;
+        }
+        throw new IllegalArgumentException("Employee does not exist");
     }
 
     // Creates a room description

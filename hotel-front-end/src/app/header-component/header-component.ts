@@ -10,15 +10,21 @@ import { HttpService } from '../services/http-service';
 })
 export class HeaderComponent {
   constructor(private httpService: HttpService) {
-    this.checkLogin();
+    this.getLoginDetails();
   }
 
   login() {
-    window.location.href = 'http://localhost:8080/login/oauth2/code/google';
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
   }
 
   checkLogin() {
-    this.httpService.getEmployee('matthew.wright.ttb@google.com').subscribe((data) => {
+    this.httpService.loginEmployee('matthew.wright.ttb@google.com').subscribe((data) => {
+      console.log(data);
+    });
+  }
+
+  getLoginDetails() {
+    this.httpService.getCredentials().subscribe((data) => {
       console.log(data);
     });
   }
