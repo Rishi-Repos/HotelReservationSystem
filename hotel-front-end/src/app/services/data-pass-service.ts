@@ -1,7 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { RoomDescription } from '../models/room-description/room-description';
-import { Employee } from '../models/employee/employee';
+import { Employee } from '../employee/employee';
+import { Room } from '../models/room/room';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,9 @@ export class DataPassService {
 
   // Creates a signal to allow the system to use the logged-in employee.
   loggedInEmployee = signal<Employee | null>(null);
+
+  // Creates a signal for the total number of rooms.
+  totalNumberOfRooms = signal<number>(0);
 
   constructor() {}
 

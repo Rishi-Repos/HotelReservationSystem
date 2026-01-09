@@ -32,7 +32,7 @@ public class RoomService {
     // Accepts a LocalDate parameter and filters all rooms by if it is available on
     // that particular date.
     // This is useful for filtering by specific days.
-    public List<Room> findAllAvailableRooms(LocalDate date) {
+    public List<Room> findAllAvailableRooms(LocalDate startDate, LocalDate endDate) {
         List<Room> rooms = findAllRooms();
 
         // Will need a bookingService to find all rooms that are booked for this date.

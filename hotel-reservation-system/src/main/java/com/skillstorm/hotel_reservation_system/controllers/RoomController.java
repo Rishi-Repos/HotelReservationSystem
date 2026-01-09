@@ -56,9 +56,9 @@ public class RoomController {
     // accepts a LocalDate parameter and returns all rooms that are available for
     // that date.
     @GetMapping("/availability")
-    public ResponseEntity<List<Room>> getAvailableRooms(@RequestParam LocalDate date) {
+    public ResponseEntity<List<Room>> getAvailableRooms(@RequestParam LocalDate startDate, LocalDate endDate) {
         try {
-            List<Room> rooms = roomService.findAllAvailableRooms(date);
+            List<Room> rooms = roomService.findAllAvailableRooms(startDate, endDate);
             return new ResponseEntity<>(rooms, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
