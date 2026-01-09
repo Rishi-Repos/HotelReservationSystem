@@ -8,6 +8,7 @@ import { RoomDescriptionComponent } from '../room-description-component/room-des
 import { Observable } from 'rxjs';
 import { DataPassService } from '../services/data-pass-service';
 import { FrontPageComponent } from '../front-page-component/front-page-component';
+import { Employee } from '../employee/employee';
 
 /**
  * The Homepage component is the first page that guests will see when entering the website. It pulls a list of rooms from
@@ -23,7 +24,7 @@ import { FrontPageComponent } from '../front-page-component/front-page-component
     RoomDescriptionComponent,
     CurrentSelectionComponent,
     BookingNavbarComponent,
-    FrontPageComponent
+    FrontPageComponent,
   ],
   templateUrl: './homepage-component.html',
   styleUrl: './homepage-component.css',
@@ -42,7 +43,8 @@ export class HomepageComponent {
   // Gets all available rooms (based on the date)
   getAvailableRooms() {
     const currentDate: Date = new Date();
-    this.httpService.getAllAvailableRooms(currentDate).subscribe((data) => {});
+    const tomorrowDate: Date = new Date();
+    this.httpService.getAllAvailableRooms(currentDate, tomorrowDate).subscribe((data) => {});
   }
 
   // Gets all available room descriptions (based on the date)

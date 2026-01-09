@@ -32,9 +32,9 @@ public class RoomDescriptionService {
         return roomDescriptionRepository.findById((int) id);
     }
 
-    public List<RoomDescription> findAllAvailableRoomDescriptions(LocalDate date) {
+    public List<RoomDescription> findAllAvailableRoomDescriptions(LocalDate startDate, LocalDate endDate) {
 
-        List<Room> foundRooms = roomService.findAllAvailableRooms(date);
+        List<Room> foundRooms = roomService.findAllAvailableRooms(startDate, endDate);
 
         List<RoomDescription> roomDescriptions = new ArrayList<>();
 
@@ -47,9 +47,9 @@ public class RoomDescriptionService {
         return roomDescriptions;
     }
 
-    public boolean findAvailableRoomDescription(long id, LocalDate date) {
+    public boolean findAvailableRoomDescription(long id, LocalDate startDate, LocalDate endDate) {
 
-        return roomService.findAllAvailableRooms(date).stream()
+        return roomService.findAllAvailableRooms(startDate, endDate).stream()
                 .map(Room::getRoomDescription)
                 .anyMatch(rd -> rd.getId() == id);
     }

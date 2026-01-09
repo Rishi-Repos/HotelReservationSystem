@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
-import { Employee } from '../models/employee/employee';
+import { Employee } from '../employee/employee';
 import { RoomDescription } from '../models/room-description/room-description';
 import { Room } from '../models/room/room';
 
@@ -18,9 +18,12 @@ export class HttpService {
     return this.http.get<Room[]>(this.baseURL + 'rooms', { observe: 'response' });
   }
 
-  getAllAvailableRooms(date: Date): Observable<HttpResponse<Room[]>> {
-    const isoDate = date.toISOString().split('T')[0];
-    const params = new HttpParams().set('date', isoDate);
+  getAllAvailableRooms(startDate: Date, endDate: Date): Observable<HttpResponse<Room[]>> {
+    const isoStartDate = startDate.toISOString().split('T')[0];
+    const isoEndDate = endDate.toISOString().split('T')[0];
+    const params = new HttpParams();
+    params.append('startDate', isoStartDate);
+    params.append('endDate', isoEndDate);
     return this.http.get<Room[]>(this.baseURL + 'rooms/availability', {
       observe: 'response',
       params: params,

@@ -41,9 +41,11 @@ public class RoomDescriptionController {
     }
 
     @GetMapping("/availability")
-    public ResponseEntity<List<RoomDescription>> getAllAvailableRoomDescriptions(@RequestParam LocalDate date) {
+    public ResponseEntity<List<RoomDescription>> getAllAvailableRoomDescriptions(@RequestParam LocalDate startDate,
+            LocalDate endDate) {
         try {
-            List<RoomDescription> roomDescriptions = roomDescriptionService.findAllAvailableRoomDescriptions(date);
+            List<RoomDescription> roomDescriptions = roomDescriptionService.findAllAvailableRoomDescriptions(startDate,
+                    endDate);
             return new ResponseEntity<>(roomDescriptions, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
@@ -51,12 +53,13 @@ public class RoomDescriptionController {
     }
 
     @GetMapping("/room-available")
-    public ResponseEntity<Boolean> getAvailableRoomDescription(@RequestParam LocalDate date,
+    public ResponseEntity<Boolean> getAvailableRoomDescription(@RequestParam LocalDate startDate,
+            LocalDate endDate,
             long roomDescriptionId) {
         try {
             boolean descriptionAvailable = roomDescriptionService.findAvailableRoomDescription(
                     roomDescriptionId,
-                    date);
+                    startDate, endDate);
             return new ResponseEntity<>(descriptionAvailable, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
