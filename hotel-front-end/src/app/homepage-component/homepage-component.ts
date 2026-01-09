@@ -50,7 +50,10 @@ export class HomepageComponent {
   // Gets all available room descriptions (based on the date)
   getAvailableRoomDescriptions() {
     const currentDate: Date = new Date();
-    this.httpService.getAllAvailableRoomDescriptions(currentDate).subscribe((data) => {});
+    const tomorrowDate: Date = new Date();
+    this.httpService
+      .getAllAvailableRoomDescriptions(currentDate, tomorrowDate)
+      .subscribe((data) => {});
   }
 
   // This will update whether or not a room is available to book (based on the date).
@@ -66,7 +69,7 @@ export class HomepageComponent {
 
   // Checks whether a room is available to select (based on the date).
   checkRoomDescriptionIsAvailable(room: RoomDescription): Observable<boolean> {
-    return this.httpService.checkRoomDescriptionIsAvailable(room.id, new Date());
+    return this.httpService.checkRoomDescriptionIsAvailable(room.id, new Date(), new Date());
   }
 
   // Used to add all rooms to the homepage

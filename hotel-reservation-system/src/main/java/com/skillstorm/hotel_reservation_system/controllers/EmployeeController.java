@@ -52,15 +52,18 @@ public class EmployeeController {
     }
 
     @GetMapping("/credentials")
-    public Employee getUser(@AuthenticationPrincipal OidcUser principal) {
+    public ResponseEntity<?> getUser(@AuthenticationPrincipal OidcUser principal) {
         if (principal == null) {
-            throw new IllegalArgumentException("Not logged in");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
+
         Employee foundEmployee = employeeService.findEmployeeByEmail(principal.getEmail());
-        if (foundEmployee != null) {
-            return foundEmployee;
+
+        if (foundEmployee == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee does not exist");
         }
-        throw new IllegalArgumentException("Employee does not exist");
+
+        return ResponseEntity.ok(foundEmployee);
     }
 
     // Creates a room description

@@ -14,7 +14,9 @@ import { DataPassService } from '../services/data-pass-service';
   styleUrl: './employee-available-rooms-component.css',
 })
 export class EmployeeAvailableRoomsComponent {
-  constructor(private httpService: HttpService, private dataPass: DataPassService) {}
+  constructor(private httpService: HttpService, private dataPass: DataPassService) {
+    this.setTotalNumberOfRooms();
+  }
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin],
@@ -27,11 +29,12 @@ export class EmployeeAvailableRoomsComponent {
           if (data.body === null) {
             return;
           }
-          const totalRooms = 10;
+          const totalRooms = this.dataPass.totalNumberOfRooms();
+          console.log(data.body);
           const events = data.body.map((d) => ({
-            title: `${totalRooms - d.rooms.length} booked`,
-            date: d.date,
-            className: d.rooms.length === 0 ? 'fully-booked' : 'available',
+            // title: `${totalRooms - d.length} booked`,
+            // date: d.date,
+            // className: d.rooms.length === 0 ? 'fully-booked' : 'available',
           }));
           successCallback(events);
         },
@@ -39,4 +42,12 @@ export class EmployeeAvailableRoomsComponent {
       });
     },
   };
+
+  setTotalNumberOfRooms() {
+    this.httpService.getAllRooms().subscribe((data) => {
+      if (data.body) {
+        this.dataPass.totalNumberOfRooms.set(data.body.length);
+      }
+    });
+  }
 }

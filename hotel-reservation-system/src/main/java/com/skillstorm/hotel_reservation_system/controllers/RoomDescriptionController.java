@@ -42,7 +42,7 @@ public class RoomDescriptionController {
 
     @GetMapping("/availability")
     public ResponseEntity<List<RoomDescription>> getAllAvailableRoomDescriptions(@RequestParam LocalDate startDate,
-            LocalDate endDate) {
+            @RequestParam LocalDate endDate) {
         try {
             List<RoomDescription> roomDescriptions = roomDescriptionService.findAllAvailableRoomDescriptions(startDate,
                     endDate);
@@ -54,8 +54,8 @@ public class RoomDescriptionController {
 
     @GetMapping("/room-available")
     public ResponseEntity<Boolean> getAvailableRoomDescription(@RequestParam LocalDate startDate,
-            LocalDate endDate,
-            long roomDescriptionId) {
+            @RequestParam LocalDate endDate,
+            @RequestParam long roomDescriptionId) {
         try {
             boolean descriptionAvailable = roomDescriptionService.findAvailableRoomDescription(
                     roomDescriptionId,

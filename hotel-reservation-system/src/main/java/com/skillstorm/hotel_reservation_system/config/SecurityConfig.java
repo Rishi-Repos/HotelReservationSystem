@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/rooms").permitAll()
                         // Allows all POST method requests to the /rooms endpoint.
 
-                        .requestMatchers(HttpMethod.GET, "/room-descriptions").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/room-descriptions/**").permitAll()
                         // Allows all GET method requests to the /room-descriptions endpoint.
 
                         .requestMatchers(HttpMethod.POST, "/room-descriptions").hasAnyRole("admin", "manager")
