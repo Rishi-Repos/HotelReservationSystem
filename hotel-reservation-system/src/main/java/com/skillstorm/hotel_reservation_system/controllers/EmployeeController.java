@@ -1,5 +1,6 @@
 package com.skillstorm.hotel_reservation_system.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skillstorm.hotel_reservation_system.models.Employee;
 import com.skillstorm.hotel_reservation_system.services.EmployeeService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/employees")
@@ -64,6 +68,13 @@ public class EmployeeController {
         }
 
         return ResponseEntity.ok(foundEmployee);
+    }
+
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        req.getSession().invalidate();
+        res.sendRedirect(
+                "https://accounts.google.com/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:4200/homepage");
     }
 
     // Creates a room description
