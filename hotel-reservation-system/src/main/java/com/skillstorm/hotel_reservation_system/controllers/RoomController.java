@@ -57,7 +57,6 @@ public class RoomController {
     // that date.
     @GetMapping("/availability")
     public ResponseEntity<List<Room>> getAvailableRooms(@RequestParam LocalDate startDate, LocalDate endDate) {
-        System.out.println(startDate + " " + endDate);
         try {
             List<Room> rooms = roomService.findAllAvailableRooms(startDate, endDate);
             return new ResponseEntity<>(rooms, HttpStatus.OK);
