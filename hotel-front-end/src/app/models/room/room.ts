@@ -3,10 +3,14 @@
  */
 
 export class Room {
+  id: number;
   roomDescriptionId: number;
+  deleted: boolean;
 
   //constructor
-  constructor(roomDescriptionId: number) {
+  constructor(id: number, roomDescriptionId: number, deleted: boolean) {
+    this.id = id;
     this.roomDescriptionId = roomDescriptionId;
+    this.deleted = deleted;
   }
 }

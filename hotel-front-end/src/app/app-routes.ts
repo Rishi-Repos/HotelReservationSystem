@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { EmployeePortalComponent } from './employee-portal-component/employee-portal-component';
 import { SearchComponent } from './search-component/search-component';
 import { AboutPageComponent } from './about-page-component/about-page-component';
 import { FrontPageComponent } from './front-page-component/front-page-component';
@@ -15,6 +16,10 @@ export const routes: Routes = [
   {
     path: 'search',
     component: SearchComponent,
+  },
+  {
+    path: 'employee',
+    component: EmployeePortalComponent,
   },
   {
     path: 'about-us',

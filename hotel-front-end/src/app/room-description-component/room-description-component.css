@@ -18,11 +18,13 @@ div {
 
 h3 {
   background-color: #966f33;
+  font-size: 1em;
 }
 
 p {
   background-color: #966f33;
   margin: 0;
+  font-size: 0.85em;
 }
 
 .room__unavailable {
@@ -42,9 +44,4 @@ button {
   height: 50px;
   margin-left: 5px;
   border-radius: 0.4vw;
-}
-
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
 }

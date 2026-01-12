@@ -8,6 +8,7 @@ import { RoomDescriptionComponent } from '../room-description-component/room-des
 import { Observable } from 'rxjs';
 import { DataPassService } from '../services/data-pass-service';
 import { FrontPageComponent } from '../front-page-component/front-page-component';
+import { Employee } from '../employee/employee';
 
 /**
  * The Homepage component is the first page that guests will see when entering the website. It pulls a list of rooms from
@@ -42,13 +43,17 @@ export class SearchComponent {
   // Gets all available rooms (based on the date)
   getAvailableRooms() {
     const currentDate: Date = new Date();
-    this.httpService.getAllAvailableRooms(currentDate).subscribe((data) => {});
+    const tomorrowDate: Date = new Date();
+    this.httpService.getAllAvailableRooms(currentDate, tomorrowDate).subscribe((data) => {});
   }
 
   // Gets all available room descriptions (based on the date)
   getAvailableRoomDescriptions() {
     const currentDate: Date = new Date();
-    this.httpService.getAllAvailableRoomDescriptions(currentDate).subscribe((data) => {});
+    const tomorrowDate: Date = new Date();
+    this.httpService
+      .getAllAvailableRoomDescriptions(currentDate, tomorrowDate)
+      .subscribe((data) => {});
   }
 
   // This will update whether or not a room is available to book (based on the date).
@@ -64,27 +69,30 @@ export class SearchComponent {
 
   // Checks whether a room is available to select (based on the date).
   checkRoomDescriptionIsAvailable(room: RoomDescription): Observable<boolean> {
-    return this.httpService.checkRoomDescriptionIsAvailable(room.id, new Date());
+    return this.httpService.checkRoomDescriptionIsAvailable(room.id, new Date(), new Date());
   }
 
   // Used to add all rooms to the homepage
   addRoomToHomepage() {
     this.httpService.getAllRoomDescriptions().subscribe((data) => {
+      console.log(data?.body);
       const mappedRooms =
-        data.body?.map((newRoom) => {
-          // this.updateRoomAvailability(newRoom);
-          return new RoomDescription(
-            newRoom.id,
-            newRoom.bedStyle,
-            newRoom.adaCompliant,
-            newRoom.isSmoking,
-            newRoom.roomImage,
-            newRoom.maxOccupancy,
-            newRoom.price,
-            newRoom.isAvailable,
-            newRoom.roomColor
-          );
-        }) || [];
+        data.body
+          ?.filter((newRoom) => !newRoom.deleted)
+          .map((newRoom) => {
+            return new RoomDescription(
+              newRoom.id,
+              newRoom.bedStyle,
+              newRoom.adaCompliant,
+              newRoom.isSmoking,
+              newRoom.roomImage,
+              newRoom.maxOccupancy,
+              newRoom.price,
+              newRoom.isAvailable,
+              newRoom.roomColor,
+              newRoom.deleted
+            );
+          }) || [];
       this.roomDescriptions.set(mappedRooms);
 
       this.updateRoomAvailability(mappedRooms);

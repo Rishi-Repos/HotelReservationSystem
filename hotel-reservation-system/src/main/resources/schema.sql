@@ -52,12 +52,14 @@ CREATE TABLE room_description (
 	ada_compliant BOOLEAN NOT NULL,
 	bed_style TEXT NOT NULL,
 	room_image TEXT NOT NULL,
-	price INT NOT NULL
+	price INT NOT NULL,
+	deleted BOOLEAN NOT NULL
 );
 
 -- Lookup Table --
 CREATE TABLE room(
 	room_id SERIAL PRIMARY KEY,
+	deleted BOOLEAN NOT NULL,
 	room_description_id INT NOT NULL REFERENCES room_description(room_description_id)
 );
 

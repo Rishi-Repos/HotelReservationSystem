@@ -38,15 +38,26 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/rooms").permitAll()
                         // Allows all POST method requests to the /rooms endpoint.
 
-                        .requestMatchers(HttpMethod.GET, "/room-descriptions").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/room-descriptions/**").permitAll()
                         // Allows all GET method requests to the /room-descriptions endpoint.
 
-                        .requestMatchers(HttpMethod.POST, "/room-descriptions").hasAnyRole("admin", "manager")
+                        .requestMatchers(HttpMethod.POST, "/room-descriptions").hasAnyRole("ADMIN", "MANAGER")
                         // All POST requests to room descriptions should be made only by an admin or a
+                        // manager
+
+                        .requestMatchers(HttpMethod.PUT, "/room-descriptions").hasAnyRole("ADMIN", "MANAGER")
+                        // All PUT requests to room descriptions should be made only by an admin or a
+                        // manager
+
+                        .requestMatchers(HttpMethod.DELETE, "/room-descriptions").hasAnyRole("ADMIN", "MANAGER")
+                        // All PUT requests to room descriptions should be made only by an admin or a
                         // manager
 
                         .requestMatchers(HttpMethod.GET, "/employees/**").permitAll()
                         // Allows all GET method requests to the /employees endpoint.
+
+                        .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
+                        // Allows all GET method requests to the /users endpoint.
 
                         .requestMatchers(HttpMethod.POST, "/employees").hasRole("admin")
                         // All POST requests to the /employees endpoint should be made only by a user
@@ -57,9 +68,19 @@ public class SecurityConfig {
 
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customEmployeeLoginService))
+                                .oidcUserService(customEmployeeLoginService)
+                        // .userService(customEmployeeLoginService)
+                        )
                         .defaultSuccessUrl("http://localhost:4200/homepage", true) // Angular route
                         .failureUrl("http://localhost:4200/login/error"))
+
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("http://localhost:4200/homepage") // angular route
+                )
 
                 .exceptionHandling(exceptions -> exceptions
                         // Handles unauthorized requests and returns a 401 error
@@ -72,7 +93,8 @@ public class SecurityConfig {
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType("application/json");
-                            response.getWriter().write("{\"error\": \"forbidden\"}");
+                            String message = accessDeniedException.getMessage();
+                            response.getWriter().write("{\"error\": \"" + message + "\"}");
                         }))
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
