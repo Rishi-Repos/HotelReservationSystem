@@ -43,6 +43,7 @@ export class HttpService {
 
   // Sends the put request to update a room description to the server.
   updateRoom(room: Room): Observable<Room | null> {
+    console.log(room);
     return this.http
       .put<Room>(this.baseURL + 'rooms/' + room.id, room, {
         observe: 'response',

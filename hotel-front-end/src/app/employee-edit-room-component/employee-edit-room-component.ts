@@ -218,7 +218,11 @@ export class EmployeeEditRoomComponent {
           break;
         }
         case 'Edit': {
-          const room: Room = new Room(0, this.selectedRoomDescription?.value.id, false);
+          const room: Room = new Room(
+            this.selectedRoom?.value.id,
+            this.selectedRoomDescription?.value,
+            false
+          );
           this.httpService.updateRoom(room).subscribe({
             next: (res) => {
               console.log('Updated:', res);
@@ -230,13 +234,7 @@ export class EmployeeEditRoomComponent {
           break;
         }
         case 'Delete': {
-          const room: Room = new Room(
-            this.selectedRoom?.value.id,
-            this.selectedRoomDescription?.value.id,
-            true
-          );
-          console.log(room);
-          this.httpService.deleteRoom(room.id).subscribe({
+          this.httpService.deleteRoom(this.selectedRoom?.value.id).subscribe({
             next: () => {
               console.log('Deleted Successfully!');
               this.updateRoomOptions();
