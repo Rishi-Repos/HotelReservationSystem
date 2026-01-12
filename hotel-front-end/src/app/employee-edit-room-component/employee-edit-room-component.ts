@@ -22,9 +22,10 @@ export class EmployeeEditRoomComponent {
   private router = inject(Router);
   editRoomForm: FormGroup;
 
-  options = ['Option A', 'Option B', 'Option C'];
+  // Options for the house colors.
   houseColorOptions = ['Griffindor', 'Slytherin', 'Ravenclaw', 'Hufflepuff'];
 
+  // List of room descriptions that can be selected.
   roomDescriptionOptions: RoomDescription[] = [];
 
   constructor(private fb: FormBuilder, private httpService: HttpService) {
@@ -32,10 +33,8 @@ export class EmployeeEditRoomComponent {
       roomRadio: new FormControl('', [Validators.required]),
       editTypeRadio: new FormControl('', [Validators.required]),
       bedStyleControl: new FormControl(''),
-      // numberOfBedsControl: new FormControl(0),
       adaCompliantControl: new FormControl(false),
       isSmokingControl: new FormControl(false),
-      // roomImageControl: new FormControl(''),
       maxOccupancyControl: new FormControl(0),
       priceControl: new FormControl(0),
       roomColorControl: new FormControl(''),
@@ -44,6 +43,8 @@ export class EmployeeEditRoomComponent {
 
     this.updateRoomDescriptionOptions();
   }
+
+  // Get statements for the form fields.
 
   get roomRadio() {
     return this.editRoomForm.get('roomRadio');
@@ -57,6 +58,31 @@ export class EmployeeEditRoomComponent {
     return this.editRoomForm.get('selectedOption');
   }
 
+  get bedStyleControl() {
+    return this.editRoomForm.get('bedStyleControl');
+  }
+
+  get adaCompliantControl() {
+    return this.editRoomForm.get('adaCompliantControl');
+  }
+
+  get isSmokingControl() {
+    return this.editRoomForm.get('isSmokingControl');
+  }
+
+  get maxOccupancyControl() {
+    return this.editRoomForm.get('maxOccupancyControl');
+  }
+
+  get priceControl() {
+    return this.editRoomForm.get('priceControl');
+  }
+
+  get roomColorControl() {
+    return this.editRoomForm.get('roomColorControl');
+  }
+
+  // Gets the list of room descriptions from the server and pushes it to roomDescriptionOptions
   updateRoomDescriptionOptions(): void {
     this.httpService.getAllRoomDescriptions().subscribe((data) => {
       if (data.body === null) {
@@ -68,6 +94,7 @@ export class EmployeeEditRoomComponent {
     });
   }
 
+  // Controls what happens when specific fields are updated on the edit form.
   ngOnInit() {
     this.editRoomForm.get('selectedRoomDescription')?.valueChanges.subscribe((selectedOption) => {
       this.onRoomDescriptionChange(selectedOption);
@@ -77,6 +104,7 @@ export class EmployeeEditRoomComponent {
     });
   }
 
+  // Sets or clears validators depending on whether a room or room type is being updated.
   updateValidatorsForRoomType(value: string): void {
     if (value === 'Room') {
       this.editRoomForm.get('bedStyleControl')?.clearValidators();
@@ -93,18 +121,64 @@ export class EmployeeEditRoomComponent {
     this.editRoomForm.get('bedStyleControl')?.updateValueAndValidity();
   }
 
+  // Patches the values into the editRoomForm so it is usable elsewhere in the code.
   onRoomDescriptionChange(selectedOption: RoomDescription) {
+    console.log(selectedOption.adaCompliant, typeof selectedOption.isSmoking);
     this.editRoomForm.patchValue({
       bedStyleControl: selectedOption.bedStyle,
       roomColorControl: selectedOption.roomColor,
-      adaCompliantControl: selectedOption.adaCompliant,
-      isSmokingControl: selectedOption.isSmoking,
+      adaCompliantControl: !!selectedOption.adaCompliant,
+      isSmokingControl: !!selectedOption.isSmoking,
       maxOccupancyControl: selectedOption.maxOccupancy,
       priceControl: selectedOption.price,
     });
   }
 
-  editFormSubmit(): void {
-    console.log('I am submitted!');
+  // Looks at roomRadio and editTypeRadio to determine which type of request to send to the server.
+  editRoomFormSubmit(): void {
+    if (this.roomRadio?.value === 'Room') {
+      switch (this.editTypeRadio?.value) {
+        case 'Create': {
+          console.log(this.roomRadio?.value, ' ', this.editTypeRadio?.value);
+          break;
+        }
+        case 'Edit': {
+          console.log(this.roomRadio?.value, ' ', this.editTypeRadio?.value);
+          break;
+        }
+        case 'Delete': {
+          console.log(this.roomRadio?.value, ' ', this.editTypeRadio?.value);
+          break;
+        }
+      }
+    } else {
+      switch (this.editTypeRadio?.value) {
+        case 'Create': {
+          console.log(this.roomRadio?.value, ' ', this.editTypeRadio?.value);
+          const roomImagePath = `${this.roomColorControl?.value.toLowerCase()}_room.png`;
+          const roomDescription: RoomDescription = new RoomDescription(
+            0,
+            this.bedStyleControl?.value,
+            this.adaCompliantControl?.value,
+            this.isSmokingControl?.value,
+            roomImagePath,
+            this.maxOccupancyControl?.value,
+            this.priceControl?.value,
+            true,
+            this.roomColorControl?.value
+          );
+          console.log(roomDescription);
+          break;
+        }
+        case 'Edit': {
+          console.log(this.roomRadio?.value, ' ', this.editTypeRadio?.value);
+          break;
+        }
+        case 'Delete': {
+          console.log(this.roomRadio?.value, ' ', this.editTypeRadio?.value);
+          break;
+        }
+      }
+    }
   }
 }
