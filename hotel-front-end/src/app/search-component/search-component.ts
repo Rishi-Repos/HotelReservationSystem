@@ -87,7 +87,8 @@ export class SearchComponent {
             newRoom.maxOccupancy,
             newRoom.price,
             newRoom.isAvailable,
-            newRoom.roomColor
+            newRoom.roomColor,
+            newRoom.deleted
           );
         }) || [];
       this.roomDescriptions.set(mappedRooms);

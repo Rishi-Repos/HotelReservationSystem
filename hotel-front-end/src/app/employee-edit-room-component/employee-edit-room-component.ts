@@ -168,7 +168,8 @@ export class EmployeeEditRoomComponent {
             this.maxOccupancyControl?.value,
             this.priceControl?.value,
             true,
-            this.roomColorControl?.value
+            this.roomColorControl?.value,
+            false
           );
           this.httpService.createRoomDescription(roomDescription).subscribe({
             next: (res) => console.log('Created:', res),
@@ -187,7 +188,8 @@ export class EmployeeEditRoomComponent {
             this.maxOccupancyControl?.value,
             this.priceControl?.value,
             true,
-            this.roomColorControl?.value
+            this.roomColorControl?.value,
+            false
           );
           this.httpService.updateRoomDescription(roomDescription).subscribe({
             next: (res) => console.log('Updated:', res),
