@@ -117,6 +117,7 @@ export class EmployeeEditRoomComponent {
     });
     this.editRoomForm.get('roomRadio')?.valueChanges.subscribe((value) => {
       this.updateValidatorsForRoomType(value);
+      this.resetRoomDescriptionFields();
     });
     this.editRoomForm.get('selectedRoom')?.valueChanges.subscribe((selectedOption) => {
       console.log(selectedOption);
@@ -160,40 +161,38 @@ export class EmployeeEditRoomComponent {
 
   // Patches the values into the editRoomForm so it is usable elsewhere in the code.
   onRoomDescriptionChange(selectedOption: RoomDescription) {
-    this.editRoomForm.patchValue({
-      bedStyleControl: selectedOption.bedStyle,
-      roomColorControl: selectedOption.roomColor,
-      adaCompliantControl: !!selectedOption.adaCompliant,
-      isSmokingControl: !!selectedOption.isSmoking,
-      maxOccupancyControl: selectedOption.maxOccupancy,
-      priceControl: selectedOption.price,
-    });
+    if (selectedOption !== null) {
+      this.editRoomForm.patchValue({
+        bedStyleControl: selectedOption.bedStyle,
+        roomColorControl: selectedOption.roomColor,
+        adaCompliantControl: !!selectedOption.adaCompliant,
+        isSmokingControl: !!selectedOption.isSmoking,
+        maxOccupancyControl: selectedOption.maxOccupancy,
+        priceControl: selectedOption.price,
+      });
+    }
   }
 
+  // When the selectedRoom is changed, the selectedRoomDescription is updated automatically.
   onRoomChange(roomDescription: RoomDescription) {
     this.editRoomForm.patchValue({
       selectedRoomDescription: roomDescription,
     });
-    //   this.editRoomForm.patchValue({
-    //     bedStyleControl: roomDescription.bedStyle,
-    //     roomColorControl: roomDescription.roomColor,
-    //     adaCompliantControl: !!roomDescription.adaCompliant,
-    //     isSmokingControl: !!roomDescription.isSmoking,
-    //     maxOccupancyControl: roomDescription.maxOccupancy,
-    //     priceControl: roomDescription.price,
-    //   });
   }
 
   compareDescriptions = (a: RoomDescription, b: RoomDescription) => a && b && a.id === b.id;
 
+  // Resets all the fields when called.
   resetRoomDescriptionFields(): void {
     this.editRoomForm.patchValue({
+      selectedRoomDescription: null,
       bedStyleControl: '',
       roomColorControl: '',
       adaCompliantControl: false,
       isSmokingControl: false,
       maxOccupancyControl: 0,
       priceControl: 0,
+      editTypeRadio: '',
     });
   }
 
@@ -257,17 +256,11 @@ export class EmployeeEditRoomComponent {
           break;
         }
         case 'Delete': {
-          console.log(
-            this.selectedRoomDescription,
-            this.selectedRoomDescription?.value.id,
-            typeof this.selectedRoomDescription?.value.id
-          );
           this.httpService.deleteRoomDescription(this.selectedRoomDescription?.value.id).subscribe({
             next: () => {
               console.log('Deleted Successfully!');
               this.updateRoomDescriptionOptions();
               this.resetRoomDescriptionFields();
-              // this.editRoomForm.get('selectedRoomDescription')?.reset();
             },
             error: (err) => console.error(err),
           });
