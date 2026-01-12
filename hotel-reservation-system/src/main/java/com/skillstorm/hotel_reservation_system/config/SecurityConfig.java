@@ -30,39 +30,27 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req.requestMatchers(HttpMethod.GET, "/main/loggedout").permitAll()
+                        // Request matchers for the /rooms endpoint.
                         .requestMatchers(HttpMethod.GET, "/rooms").permitAll()
-                        // Allows all GET method requests to the /rooms endpoint.
-
                         .requestMatchers(HttpMethod.GET, "/rooms/availability").permitAll()
-
                         .requestMatchers(HttpMethod.POST, "/rooms").permitAll()
-                        // Allows all POST method requests to the /rooms endpoint.
+                        .requestMatchers(HttpMethod.PUT, "/rooms").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/rooms").hasAnyRole("ADMIN")
 
+                        // Request matchers for the /room-descriptions endpoint.
                         .requestMatchers(HttpMethod.GET, "/room-descriptions/**").permitAll()
-                        // Allows all GET method requests to the /room-descriptions endpoint.
-
-                        .requestMatchers(HttpMethod.POST, "/room-descriptions").hasAnyRole("ADMIN", "MANAGER")
-                        // All POST requests to room descriptions should be made only by an admin or a
-                        // manager
-
-                        .requestMatchers(HttpMethod.PUT, "/room-descriptions").hasAnyRole("ADMIN", "MANAGER")
-                        // All PUT requests to room descriptions should be made only by an admin or a
-                        // manager
-
-                        .requestMatchers(HttpMethod.DELETE, "/room-descriptions").hasAnyRole("ADMIN", "MANAGER")
-                        // All PUT requests to room descriptions should be made only by an admin or a
-                        // manager
-
-                        .requestMatchers(HttpMethod.GET, "/employees/**").permitAll()
-                        // Allows all GET method requests to the /employees endpoint.
+                        .requestMatchers(HttpMethod.POST, "/room-descriptions").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/room-descriptions").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/room-descriptions").hasAnyRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
                         // Allows all GET method requests to the /users endpoint.
 
+                        .requestMatchers(HttpMethod.GET, "/employees/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/employees").hasRole("admin")
                         // All POST requests to the /employees endpoint should be made only by a user
                         // with an admin role.
-                        // This is because only managers should be able to create a new employee.
+                        // This is because only admins should be able to create a new employee.
 
                         .anyRequest().authenticated())
 
