@@ -58,4 +58,12 @@ public class RoomDescriptionService {
     public RoomDescription createRoomDescription(RoomDescription roomDescription) {
         return roomDescriptionRepository.save(roomDescription);
     }
+
+    public RoomDescription updateRoomDescription(RoomDescription roomDescription) {
+        Optional<RoomDescription> foundRoomDescription = findRoomDescriptionById(roomDescription.getId());
+        if (foundRoomDescription.isPresent()) {
+            return roomDescriptionRepository.save(roomDescription);
+        }
+        throw new IllegalArgumentException("Room description does not exist");
+    }
 }

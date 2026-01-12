@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skillstorm.hotel_reservation_system.models.RoomDescription;
 import com.skillstorm.hotel_reservation_system.services.RoomDescriptionService;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 // Controller for handling traffic to the room-descriptions endpoint
 @RestController
@@ -35,6 +37,8 @@ public class RoomDescriptionController {
         try {
             List<RoomDescription> roomDescriptions = roomDescriptionService.findAllRooms();
             return new ResponseEntity<>(roomDescriptions, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
         }
@@ -47,6 +51,8 @@ public class RoomDescriptionController {
             List<RoomDescription> roomDescriptions = roomDescriptionService.findAllAvailableRoomDescriptions(startDate,
                     endDate);
             return new ResponseEntity<>(roomDescriptions, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
         }
@@ -61,6 +67,8 @@ public class RoomDescriptionController {
                     roomDescriptionId,
                     startDate, endDate);
             return new ResponseEntity<>(descriptionAvailable, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
         }
@@ -68,11 +76,24 @@ public class RoomDescriptionController {
 
     // Creates a room description
     @PostMapping
-    public ResponseEntity<RoomDescription> createRoom(@RequestBody RoomDescription roomDescription) {
-        System.out.println(roomDescription);
+    public ResponseEntity<RoomDescription> createRoomDescription(@RequestBody RoomDescription roomDescription) {
         try {
             RoomDescription createdRoomDescription = roomDescriptionService.createRoomDescription(roomDescription);
             return new ResponseEntity<>(createdRoomDescription, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RoomDescription> updateRoomDescription(@PathVariable String id,
+            @RequestBody RoomDescription roomDescription) {
+        System.out.println(id + " " + roomDescription);
+        try {
+            RoomDescription createdRoomDescription = roomDescriptionService.createRoomDescription(roomDescription);
+            return new ResponseEntity<>(createdRoomDescription, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
         }

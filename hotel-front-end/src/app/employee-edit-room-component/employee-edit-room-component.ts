@@ -189,7 +189,10 @@ export class EmployeeEditRoomComponent {
             true,
             this.roomColorControl?.value
           );
-          console.log(roomDescription);
+          this.httpService.updateRoomDescription(roomDescription).subscribe({
+            next: (res) => console.log('Updated:', res),
+            error: (err) => console.error(err),
+          });
           break;
         }
         case 'Delete': {

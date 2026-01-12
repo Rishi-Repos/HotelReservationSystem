@@ -75,6 +75,21 @@ export class HttpService {
       .pipe(map((response) => response.body));
   }
 
+  // Sends the put request to create a new room description to the server.
+  updateRoomDescription(roomDescription: RoomDescription): Observable<RoomDescription | null> {
+    console.log(roomDescription, this.baseURL + 'room-descriptions/' + roomDescription.id);
+    return this.http
+      .put<RoomDescription>(
+        this.baseURL + 'room-descriptions/' + roomDescription.id,
+        roomDescription,
+        {
+          observe: 'response',
+          withCredentials: true,
+        }
+      )
+      .pipe(map((response) => response.body));
+  }
+
   // Gets the logged-in employee and returns them.
   getCredentials(): Observable<Employee> {
     return this.http.get<Employee>(this.baseURL + 'employees/credentials', {

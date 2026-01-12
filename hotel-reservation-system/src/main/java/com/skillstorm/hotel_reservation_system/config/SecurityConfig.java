@@ -45,6 +45,10 @@ public class SecurityConfig {
                         // All POST requests to room descriptions should be made only by an admin or a
                         // manager
 
+                        .requestMatchers(HttpMethod.PUT, "/room-descriptions").hasAnyRole("ADMIN", "MANAGER")
+                        // All PUT requests to room descriptions should be made only by an admin or a
+                        // manager
+
                         .requestMatchers(HttpMethod.GET, "/employees/**").permitAll()
                         // Allows all GET method requests to the /employees endpoint.
 
