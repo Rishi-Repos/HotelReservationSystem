@@ -58,12 +58,12 @@
         />
       </div>
     </div>
-    @if (roomRadio?.value === 'Room Type' && editTypeRadio?.value !== 'Remove') { @if
-    (editTypeRadio?.value === 'Edit' || editTypeRadio?.value === 'Delete') {
+    @if (roomRadio?.value === 'Room Type') { @if (editTypeRadio?.value === 'Edit' ||
+    editTypeRadio?.value === 'Delete') {
     <div class="edit-form__div">
-      <p>Select the room to {{ editTypeRadio?.value }}:</p>
+      <p>Select the {{ roomRadio?.value }} to {{ editTypeRadio?.value }}:</p>
       <select formControlName="selectedRoomDescription">
-        @for (option of roomDescriptionOptions; track $index) {
+        @for (option of roomDescriptionOptions; track option.id) {
         <option [ngValue]="option">{{ option.bedStyle }}, {{ option.roomColor }}</option>
         }
       </select>
@@ -123,7 +123,79 @@
       <label for="priceControl">What is the price of the room (in Galleons)? </label>
       <input type="number" id="priceControl" name="priceControl" formControlName="priceControl" />
     </div>
-    } @if(editTypeRadio?.value !== '' && roomRadio?.value !== 0) {
+    } @else { @if (editTypeRadio?.value === 'Edit' || editTypeRadio?.value === 'Delete') {
+    <div class="edit-form__div">
+      <p>Select the {{ roomRadio?.value }} to {{ editTypeRadio?.value }}:</p>
+      <select formControlName="selectedRoom">
+        @for (option of roomOptions; track $index) {
+        <option [ngValue]="option">Room number: {{ option.id }}.</option>
+        }
+      </select>
+    </div>
+    } @if (roomRadio?.value !== '' && editTypeRadio?.value !== '') {
+    <div class="edit-form__div">
+      <p>What is the room type to be associated with the room?</p>
+      <select formControlName="selectedRoomDescription" [compareWith]="compareDescriptions">
+        @for (option of roomDescriptionOptions; track $index) {
+        <option [ngValue]="option">{{ option.bedStyle }}, {{ option.roomColor }}</option>
+        }
+      </select>
+    </div>
+    <div class="edit-form__div">
+      <label for="bedStyleControl"
+        >How many beds will the room have, and of what style? (King, Queen, twin, etc).
+      </label>
+      <input
+        type="text"
+        id="bedStyleControl"
+        name="bedStyleControl"
+        formControlName="bedStyleControl"
+      />
+    </div>
+    <div class="edit-form__div">
+      <label for="bedStyleControl">Which house colors will the room have? </label>
+      <select formControlName="roomColorControl">
+        @for (option of houseColorOptions; track $index) {
+        <option [ngValue]="option">{{ option }}</option>
+        }
+      </select>
+    </div>
+    <div class="edit-form__div">
+      <label for="adaCompliantControl">Will the room be ADA compliant? </label>
+      <input
+        type="checkbox"
+        id="adaCompliantControl"
+        name="adaCompliantControl"
+        formControlName="adaCompliantControl"
+      />
+    </div>
+    <div class="edit-form__div">
+      <label for="isSmokingControl">Will the room be allow smoking? </label>
+      <input
+        type="checkbox"
+        id="isSmokingControl"
+        name="isSmokingControl"
+        formControlName="isSmokingControl"
+      />
+    </div>
+    <div class="edit-form__div">
+      <label for="maxOccupancyControl">How many people will this room accomodate? Up to 4 </label>
+      <input
+        type="number"
+        id="maxOccupancyControl"
+        name="maxOccupancyControl"
+        formControlName="maxOccupancyControl"
+        [attr.min]="1"
+        [attr.max]="4"
+        min="1"
+        max="4"
+      />
+    </div>
+    <div class="edit-form__div">
+      <label for="priceControl">What is the price of the room (in Galleons)? </label>
+      <input type="number" id="priceControl" name="priceControl" formControlName="priceControl" />
+    </div>
+    } } @if(editTypeRadio?.value !== '' && roomRadio?.value !== 0) {
     <button [disabled]="editRoomForm.invalid" type="submit">
       {{ editTypeRadio?.value }} {{ roomRadio?.value }}
     </button>

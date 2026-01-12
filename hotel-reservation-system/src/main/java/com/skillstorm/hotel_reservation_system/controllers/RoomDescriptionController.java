@@ -81,13 +81,28 @@ public class RoomDescriptionController {
         try {
             RoomDescription createdRoomDescription = roomDescriptionService.createRoomDescription(roomDescription);
             return new ResponseEntity<>(createdRoomDescription, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RoomDescription> updateRoomDescription(@PathVariable long id,
+            @RequestBody RoomDescription roomDescription) {
+        try {
+            RoomDescription updatedRoomDescription = roomDescriptionService.updateRoomDescription(id, roomDescription);
+            return new ResponseEntity<>(updatedRoomDescription, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RoomDescription> updateRoomDescription(@PathVariable long id) {
+    public ResponseEntity<RoomDescription> deleteRoomDescription(@PathVariable long id) {
         try {
             RoomDescription foundRoomDescription = roomDescriptionService.deleteRoomDescription(id);
             return new ResponseEntity<>(foundRoomDescription, HttpStatus.NO_CONTENT);

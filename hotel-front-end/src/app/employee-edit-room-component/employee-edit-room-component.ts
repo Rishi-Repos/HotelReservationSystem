@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { DataPassService } from '../services/data-pass-service';
 import { HttpService } from '../services/http-service';
 import { RoomDescription } from '../models/room-description/room-description';
+import { Room } from '../models/room/room';
 
 @Component({
   selector: 'app-employee-edit-room-component',
@@ -27,6 +28,7 @@ export class EmployeeEditRoomComponent {
 
   // List of room descriptions that can be selected.
   roomDescriptionOptions: RoomDescription[] = [];
+  roomOptions: Room[] = [];
 
   constructor(private fb: FormBuilder, private httpService: HttpService) {
     this.editRoomForm = this.fb.group({
@@ -38,10 +40,12 @@ export class EmployeeEditRoomComponent {
       maxOccupancyControl: new FormControl(0),
       priceControl: new FormControl(0),
       roomColorControl: new FormControl(''),
-      selectedRoomDescription: new FormControl(RoomDescription),
+      selectedRoomDescription: new FormControl<RoomDescription | null>(null),
+      selectedRoom: new FormControl<Room | null>(null),
     });
 
     this.updateRoomDescriptionOptions();
+    this.updateRoomOptions();
   }
 
   // Get statements for the form fields.
@@ -96,6 +100,16 @@ export class EmployeeEditRoomComponent {
     });
   }
 
+  // Gets the list of rooms from the server and pushes it to roomOptions
+  updateRoomOptions(): void {
+    this.roomOptions = [];
+    this.httpService.getAllRooms().subscribe((data) => {
+      if (!data.body) return;
+
+      this.roomOptions = data.body.filter((room) => !room.deleted);
+    });
+  }
+
   // Controls what happens when specific fields are updated on the edit form.
   ngOnInit() {
     this.editRoomForm.get('selectedRoomDescription')?.valueChanges.subscribe((selectedOption) => {
@@ -104,20 +118,41 @@ export class EmployeeEditRoomComponent {
     this.editRoomForm.get('roomRadio')?.valueChanges.subscribe((value) => {
       this.updateValidatorsForRoomType(value);
     });
+    this.editRoomForm.get('selectedRoom')?.valueChanges.subscribe((selectedOption) => {
+      console.log(selectedOption);
+      this.onRoomChange(selectedOption.roomDescription);
+    });
   }
 
   // Sets or clears validators depending on whether a room or room type is being updated.
   updateValidatorsForRoomType(value: string): void {
     if (value === 'Room') {
+      // Clear all validators from room description
       this.editRoomForm.get('bedStyleControl')?.clearValidators();
       this.editRoomForm.get('maxOccupancyControl')?.clearValidators();
       this.editRoomForm.get('priceControl')?.clearValidators();
       this.editRoomForm.get('roomColorControl')?.clearValidators();
+
+      // Disable non-editable fields.
+      this.editRoomForm.get('bedStyleControl')?.disable();
+      this.editRoomForm.get('maxOccupancyControl')?.disable();
+      this.editRoomForm.get('priceControl')?.disable();
+      this.editRoomForm.get('roomColorControl')?.disable();
+      this.editRoomForm.get('adaCompliantControl')?.disable();
+      this.editRoomForm.get('isSmokingControl')?.disable();
     } else {
       this.editRoomForm.get('bedStyleControl')?.setValidators([Validators.required]);
       this.editRoomForm.get('maxOccupancyControl')?.setValidators([Validators.required]);
       this.editRoomForm.get('priceControl')?.setValidators([Validators.required]);
       this.editRoomForm.get('roomColorControl')?.setValidators([Validators.required]);
+
+      // Enable editable fields for Room Description
+      this.editRoomForm.get('bedStyleControl')?.enable();
+      this.editRoomForm.get('maxOccupancyControl')?.enable();
+      this.editRoomForm.get('priceControl')?.enable();
+      this.editRoomForm.get('roomColorControl')?.enable();
+      this.editRoomForm.get('adaCompliantControl')?.enable();
+      this.editRoomForm.get('isSmokingControl')?.enable();
     }
 
     this.editRoomForm.get('bedStyleControl')?.updateValueAndValidity();
@@ -125,7 +160,6 @@ export class EmployeeEditRoomComponent {
 
   // Patches the values into the editRoomForm so it is usable elsewhere in the code.
   onRoomDescriptionChange(selectedOption: RoomDescription) {
-    console.log(selectedOption.adaCompliant, typeof selectedOption.isSmoking);
     this.editRoomForm.patchValue({
       bedStyleControl: selectedOption.bedStyle,
       roomColorControl: selectedOption.roomColor,
@@ -135,6 +169,22 @@ export class EmployeeEditRoomComponent {
       priceControl: selectedOption.price,
     });
   }
+
+  onRoomChange(roomDescription: RoomDescription) {
+    this.editRoomForm.patchValue({
+      selectedRoomDescription: roomDescription,
+    });
+    //   this.editRoomForm.patchValue({
+    //     bedStyleControl: roomDescription.bedStyle,
+    //     roomColorControl: roomDescription.roomColor,
+    //     adaCompliantControl: !!roomDescription.adaCompliant,
+    //     isSmokingControl: !!roomDescription.isSmoking,
+    //     maxOccupancyControl: roomDescription.maxOccupancy,
+    //     priceControl: roomDescription.price,
+    //   });
+  }
+
+  compareDescriptions = (a: RoomDescription, b: RoomDescription) => a && b && a.id === b.id;
 
   resetRoomDescriptionFields(): void {
     this.editRoomForm.patchValue({

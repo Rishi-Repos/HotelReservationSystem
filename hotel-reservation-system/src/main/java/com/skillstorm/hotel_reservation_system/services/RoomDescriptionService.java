@@ -65,8 +65,11 @@ public class RoomDescriptionService {
         return roomDescriptionRepository.save(roomDescription);
     }
 
-    public RoomDescription updateRoomDescription(RoomDescription roomDescription) {
-        RoomDescription foundRoomDescription = findRoomDescriptionById(roomDescription.getId());
+    public RoomDescription updateRoomDescription(long id, RoomDescription roomDescription) {
+        if (roomDescription == null) {
+            throw new IllegalArgumentException("Not all fields were input correctly.");
+        }
+        RoomDescription foundRoomDescription = findRoomDescriptionById(id);
         if (foundRoomDescription.getId() > 0) {
             return roomDescriptionRepository.save(roomDescription);
         }
