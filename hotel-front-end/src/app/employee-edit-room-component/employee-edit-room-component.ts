@@ -12,10 +12,11 @@ import { DataPassService } from '../services/data-pass-service';
 import { HttpService } from '../services/http-service';
 import { RoomDescription } from '../models/room-description/room-description';
 import { Room } from '../models/room/room';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-employee-edit-room-component',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './employee-edit-room-component.html',
   styleUrl: './employee-edit-room-component.css',
 })
@@ -200,6 +201,37 @@ export class EmployeeEditRoomComponent {
     });
   }
 
+  // Methods used to open/close the confirmation modal
+  showConfirmation = false;
+
+  openConfirmationModal() {
+    if (!this.editRoomForm.valid) {
+      return;
+    }
+    this.showConfirmation = true;
+  }
+
+  confirmSubmit() {
+    this.showConfirmation = false;
+    this.editRoomFormSubmit();
+  }
+
+  cancelSubmit() {
+    this.showConfirmation = false;
+  }
+
+  // Methods used to open/close the success modal
+
+  showSuccessMessage = false;
+
+  openSuccessModal() {
+    this.showSuccessMessage = true;
+  }
+
+  closeSuccessModal() {
+    this.showSuccessMessage = false;
+  }
+
   // Looks at roomRadio and editTypeRadio to determine which type of request to send to the server.
   editRoomFormSubmit(): void {
     if (this.roomRadio?.value === 'Room') {
@@ -209,7 +241,7 @@ export class EmployeeEditRoomComponent {
           console.log(room);
           this.httpService.createRoom(room).subscribe({
             next: (res) => {
-              console.log('Created:', res);
+              this.openSuccessModal();
               this.updateRoomOptions();
               this.resetRoomDescriptionFields();
             },
@@ -225,7 +257,7 @@ export class EmployeeEditRoomComponent {
           );
           this.httpService.updateRoom(room).subscribe({
             next: (res) => {
-              console.log('Updated:', res);
+              this.openSuccessModal();
               this.updateRoomOptions();
               this.resetRoomDescriptionFields();
             },
@@ -236,7 +268,7 @@ export class EmployeeEditRoomComponent {
         case 'Delete': {
           this.httpService.deleteRoom(this.selectedRoom?.value.id).subscribe({
             next: () => {
-              console.log('Deleted Successfully!');
+              this.openSuccessModal();
               this.updateRoomOptions();
               this.resetRoomDescriptionFields();
             },
@@ -263,7 +295,7 @@ export class EmployeeEditRoomComponent {
           );
           this.httpService.createRoomDescription(roomDescription).subscribe({
             next: (res) => {
-              console.log('Created:', res);
+              this.openSuccessModal();
               this.updateRoomDescriptionOptions();
               this.resetRoomDescriptionFields();
             },
@@ -287,7 +319,7 @@ export class EmployeeEditRoomComponent {
           );
           this.httpService.updateRoomDescription(roomDescription).subscribe({
             next: (res) => {
-              console.log('Updated:', res);
+              this.openSuccessModal();
               this.updateRoomDescriptionOptions();
               this.resetRoomDescriptionFields();
             },
@@ -298,7 +330,7 @@ export class EmployeeEditRoomComponent {
         case 'Delete': {
           this.httpService.deleteRoomDescription(this.selectedRoomDescription?.value.id).subscribe({
             next: () => {
-              console.log('Deleted Successfully!');
+              this.openSuccessModal();
               this.updateRoomDescriptionOptions();
               this.resetRoomDescriptionFields();
             },

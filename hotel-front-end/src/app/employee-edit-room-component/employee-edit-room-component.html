@@ -1,5 +1,5 @@
 <section>
-  <form [formGroup]="editRoomForm" (ngSubmit)="editRoomFormSubmit()">
+  <form [formGroup]="editRoomForm" (ngSubmit)="openConfirmationModal()">
     <div class="edit-form__div">
       <!-- Selector for if a room or room type is being updated -->
       <p>Are you updating a room or a room type?</p>
@@ -215,4 +215,21 @@
     </button>
     }
   </form>
+  <div class="modal" *ngIf="showConfirmation">
+    <div class="modal__content">
+      <p class="modal__p">Are you sure you want to submit the changes?</p>
+      <div class="modal__buttons">
+        <button class="modal__btn" (click)="confirmSubmit()">Yes</button>
+        <button class="modal__btn" (click)="cancelSubmit()">No</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal" *ngIf="showSuccessMessage">
+    <div class="modal__content">
+      <p class="modal__p">Success! You can close this window.</p>
+      <div class="modal__buttons">
+        <button (click)="closeSuccessModal()">Close</button>
+      </div>
+    </div>
+  </div>
 </section>
