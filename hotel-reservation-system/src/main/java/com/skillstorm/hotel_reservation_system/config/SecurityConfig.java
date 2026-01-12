@@ -53,6 +53,8 @@ public class SecurityConfig {
                         // with an admin role.
                         // This is because only managers should be able to create a new employee.
 
+                        .requestMatchers(HttpMethod.POST, "/checkout/**").permitAll()
+
                         .anyRequest().authenticated())
 
                 .oauth2Login(oauth2 -> oauth2
