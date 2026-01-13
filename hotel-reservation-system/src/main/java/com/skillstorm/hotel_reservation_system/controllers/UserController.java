@@ -52,6 +52,21 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser(@AuthenticationPrincipal OidcUser principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+
+        User foundUser = userService.findUserByEmail(principal.getEmail());
+
+        if (foundUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist");
+        }
+
+        return ResponseEntity.ok(foundUser);
+    }
+
     // Creates a new user
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {

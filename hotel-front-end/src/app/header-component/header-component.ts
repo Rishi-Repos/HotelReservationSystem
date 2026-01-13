@@ -19,19 +19,19 @@ export class HeaderComponent {
   }
 
   getLoginDetails() {
-    this.httpService.getCredentials().subscribe((data) => {
+    this.httpService.getUserInfo().subscribe((data) => {
       console.log(data);
-      this.dataPassService.loggedInEmployee.set(data);
+      this.dataPassService.loggedInUser.set(data);
     });
   }
 
   getLoggedInEmployee() {
     // console.log(this.dataPassService.loggedInEmployee(), 'I am in the homepage');
-    return this.dataPassService?.loggedInEmployee();
+    return this.dataPassService?.loggedInUser();
   }
 
   logout() {
     this.httpService.logout();
-    this.dataPassService.loggedInEmployee.set(null);
+    this.dataPassService.loggedInUser.set(null);
   }
 }
