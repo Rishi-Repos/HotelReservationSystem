@@ -34,6 +34,6 @@ jobs:
         run: npm run build
 
       - name: Deploy
-        run: aws s3 sync hotel-front-end/dist/hotel-front-end s3://thethreebroomsticks/
+        run: aws s3 sync hotel-front-end/dist/hotel-front-end/browser s3://thethreebroomsticks/
 
         #https://github.com/Rishi-Repos/HotelReservationSystem.git
