@@ -64,4 +64,29 @@ public class UserController {
             return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
         }
     }
+
+    @PostMapping("/manager")
+    public ResponseEntity<User> createEmployeeUser(@RequestBody User user) {
+        try {
+            User createdEmployee = userService.createManager(user);
+            return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
+        }
+    }
+
+    @PostMapping("/admin")
+    public ResponseEntity<User> createAdminUser(@RequestBody User user) {
+        try {
+            User createdAdmin = userService.createAdmin(user);
+            return new ResponseEntity<>(createdAdmin, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().header("message", e.getMessage()).build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().header("message", e.getMessage()).build();
+        }
+    }
+
 }

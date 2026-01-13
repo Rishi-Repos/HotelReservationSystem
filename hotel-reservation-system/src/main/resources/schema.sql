@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS 
 	booking, 
-	employee, 
-	guest, 
+	app_user, 
 	guest_payment, 
 	payment_info, 
 	room, 
@@ -10,12 +9,12 @@ DROP TABLE IF EXISTS
 	transactions;
 
 DROP TYPE IF EXISTS pay_status CASCADE;
-DROP TYPE IF EXISTS emp_role CASCADE;
+DROP TYPE IF EXISTS role_type CASCADE;
 
 -- Only allow the following employee roles:
 CREATE TYPE role_type AS ENUM ('admin', 'manager', 'guest');
 
-CREATE TABLE user(
+CREATE TABLE app_user(
 	
 	user_id SERIAL PRIMARY KEY,
 	user_role role_type NOT NULL,
@@ -91,7 +90,7 @@ CREATE TABLE payment_info(
 
 -- Junction Table --
 CREATE TABLE guest_payment(
-	guest_id INT NOT NULL REFERENCES guest(guest_id),
+	guest_id INT NOT NULL REFERENCES app_user(user_id),
 	payment_info_id INT NOT NULL REFERENCES payment_info(payment_info_id),
 	PRIMARY KEY (guest_id, payment_info_id)
 );
@@ -110,8 +109,8 @@ CREATE TABLE booking(
 	email_on_booking VARCHAR(255) NOT NULL,
 	name_on_booking VARCHAR(255) NOT NULL,
 	phone_on_booking NUMERIC(10) NOT NULL,
-	guest_id INT NOT NULL REFERENCES user(user_id),
-	employee_id INT REFERENCES user(user_id),
+	guest_id INT NOT NULL REFERENCES app_user(user_id),
+	employee_id INT REFERENCES app_user(user_id),
 	room_id INT NOT NULL REFERENCES room(room_id)
 );
 

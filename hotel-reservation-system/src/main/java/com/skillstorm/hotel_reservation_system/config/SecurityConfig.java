@@ -62,14 +62,14 @@ public class SecurityConfig {
                         .successHandler((req, res, auth) -> {
                             var oidc = (OidcUser) auth.getPrincipal();
                             String type = oidc.getAttribute("authorities");
-
+                            System.out.println(type);
                             if (type == "ROLE_ADMIN" || type == "ROLE_MANAGER") {
                                 res.sendRedirect("/employee");
                             } else {
                                 res.sendRedirect("/homepage");
                             }
                         })
-                        .defaultSuccessUrl("http://localhost:4200/homepage", true) // Angular route
+                        // .defaultSuccessUrl("http://localhost:4200/homepage", true)
                         .failureUrl("http://localhost:4200/login/error"))
 
                 .logout(logout -> logout

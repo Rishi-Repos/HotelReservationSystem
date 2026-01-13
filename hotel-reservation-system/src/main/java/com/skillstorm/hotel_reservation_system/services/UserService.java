@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.skillstorm.hotel_reservation_system.enums.RoleType;
 import com.skillstorm.hotel_reservation_system.models.User;
 import com.skillstorm.hotel_reservation_system.repositories.UserRepository;
 
@@ -31,16 +32,33 @@ public class UserService {
         throw new IllegalArgumentException("User does not exist");
     }
 
-    // Creates a new user.
-    // An user must have ttb@gmail.com in their email address. If it does not,
-    // it will be created as a guest.
+    // The below create new users and assigns them the applicable roles.
+    // Any provided roles are overriden to better handle security.
+
+    // Creates a new guest user.
     public User createUser(User user) {
-        if (user.getEmail().contains("ttb@gmail.com")) {
+        if (user != null) {
+            user.setRole(RoleType.guest);
             return userRepository.save(user);
         }
-        if (!(user.getRole() == null)) {
+        throw new IllegalArgumentException("Attributes have not been provided in the correct manner.");
+    }
+
+    // Creates a new manager user
+    public User createManager(User user) {
+        if (user != null) {
+            user.setRole(RoleType.manager);
             return userRepository.save(user);
         }
-        throw new IllegalArgumentException("User does not exist");
+        throw new IllegalArgumentException("Attributes have not been provided in the correct manner.");
+    }
+
+    // Creates a new admin user
+    public User createAdmin(User user) {
+        if (user != null) {
+            user.setRole(RoleType.admin);
+            return userRepository.save(user);
+        }
+        throw new IllegalArgumentException("Attributes have not been provided in the correct manner.");
     }
 }

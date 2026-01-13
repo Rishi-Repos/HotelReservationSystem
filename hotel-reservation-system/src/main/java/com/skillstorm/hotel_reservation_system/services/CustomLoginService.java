@@ -13,15 +13,15 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-import com.skillstorm.hotel_reservation_system.models.Employee;
-import com.skillstorm.hotel_reservation_system.repositories.EmployeeRepository;
+import com.skillstorm.hotel_reservation_system.models.User;
+import com.skillstorm.hotel_reservation_system.repositories.UserRepository;
 
 @Service
 public class CustomLoginService implements OAuth2UserService<OidcUserRequest, OidcUser> {
-    private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
 
-    public CustomLoginService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public CustomLoginService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     private final OidcUserService delegate = new OidcUserService();
@@ -33,9 +33,9 @@ public class CustomLoginService implements OAuth2UserService<OidcUserRequest, Oi
         String email = oidcUser.getEmail();
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        Employee employee = employeeRepository.findByEmail(email);
-        if (employee != null && employee.getId() > 0) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + employee.getRole().name().toUpperCase()));
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.getId() > 0) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toUpperCase()));
         }
 
         return new DefaultOidcUser(authorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
