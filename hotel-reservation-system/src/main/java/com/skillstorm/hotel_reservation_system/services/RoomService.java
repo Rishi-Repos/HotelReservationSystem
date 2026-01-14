@@ -51,7 +51,7 @@ public class RoomService {
         List<Room> rooms = findAllRooms();
 
         List<Room> activeRooms = rooms.stream()
-                .filter(room -> room.isDeleted() != false)
+                .filter(room -> room.isDeleted() == false)
                 .collect(Collectors.toList());
         // Will need a bookingService to find all rooms that are booked for this date.
 

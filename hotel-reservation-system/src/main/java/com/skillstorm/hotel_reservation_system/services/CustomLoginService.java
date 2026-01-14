@@ -13,19 +13,22 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-import com.skillstorm.hotel_reservation_system.models.Employee;
-import com.skillstorm.hotel_reservation_system.repositories.EmployeeRepository;
+import com.skillstorm.hotel_reservation_system.enums.RoleType;
+import com.skillstorm.hotel_reservation_system.models.User;
+import com.skillstorm.hotel_reservation_system.repositories.UserRepository;
 
 @Service
-public class CustomEmployeeLoginService implements OAuth2UserService<OidcUserRequest, OidcUser> {
-    private final EmployeeRepository employeeRepository;
+public class CustomLoginService implements OAuth2UserService<OidcUserRequest, OidcUser> {
+    private final UserRepository userRepository;
 
-    public CustomEmployeeLoginService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public CustomLoginService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     private final OidcUserService delegate = new OidcUserService();
 
+    // Loads the user and provides their level of authority to Oauth2 (guest,
+    // manager, or admin).
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser oidcUser = delegate.loadUser(userRequest);
@@ -33,13 +36,20 @@ public class CustomEmployeeLoginService implements OAuth2UserService<OidcUserReq
         String email = oidcUser.getEmail();
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        Employee employee = employeeRepository.findByEmail(email);
-        if (employee != null && employee.getId() > 0) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + employee.getRole().name().toUpperCase()));
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            user = new User();
+            user.setEmail(email);
+            user.setFirstName(oidcUser.getGivenName());
+            if (oidcUser.getFamilyName() != "") {
+                user.setLastName(oidcUser.getFamilyName());
+            }
+            user.setRole(RoleType.guest);
+            userRepository.save(user);
         }
 
-        System.out.println("User email: " + email);
-        System.out.println("Authorities: " + authorities);
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toUpperCase()));
 
         return new DefaultOidcUser(authorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
     }
