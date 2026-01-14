@@ -38,8 +38,10 @@ export class HeaderComponent {
   employeeUser = signal(false);
 
   checkRoleType() {
-    if (this.dataPassService.loggedInUser()?.role !== 'guest') {
-      console.log('TRUE!');
+    if (
+      this.dataPassService.loggedInUser()?.role === 'manager' ||
+      this.dataPassService.loggedInUser()?.role === 'admin'
+    ) {
       this.employeeUser.set(true);
     } else {
       this.employeeUser.set(false);

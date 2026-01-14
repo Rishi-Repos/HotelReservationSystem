@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/oauth")
 public class Oauth2Controller {
 
     private final UserService userService;
@@ -43,7 +43,6 @@ public class Oauth2Controller {
     public void logout(HttpServletRequest req, HttpServletResponse res) throws IOException {
         req.getSession().invalidate();
         res.setHeader("Clear-Site-Data", "\"cookies\"");
-        res.sendRedirect("http://localhost:4200/homepage");
     }
 
     @GetMapping("/credentials")
