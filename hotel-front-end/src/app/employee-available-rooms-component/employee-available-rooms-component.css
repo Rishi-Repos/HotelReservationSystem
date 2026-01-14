@@ -4,3 +4,13 @@ button {
 
 @import '~@fullcalendar/daygrid/main.css';
 @import '~@fullcalendar/core/main.css';
+
+div:hover {
+  opacity: 1;
+}
+
+.fc-event:hover {
+  filter: none !important;
+  background-color: inherit !important;
+  cursor: default !important;
+}

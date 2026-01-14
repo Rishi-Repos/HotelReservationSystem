@@ -5,6 +5,7 @@ import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import { CommonModule } from '@angular/common';
 import { HttpService } from '../services/http-service';
 import { DataPassService } from '../services/data-pass-service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-employee-available-rooms-component',
@@ -25,23 +26,33 @@ export class EmployeeAvailableRoomsComponent {
     eventTimeFormat: {},
     initialView: 'dayGridMonth',
     events: (fetchInfo, successCallback, failureCallback) => {
-      // This creates the events to add (how many rooms are available on each visible day).
-      const startDate: Date = new Date(fetchInfo.start);
-      const endDate: Date = new Date(fetchInfo.end);
-      this.httpService.getAllAvailableRooms(startDate, endDate).subscribe({
-        // Gets all available rooms and updates how many rooms are booked each day.
-        next: (data) => {
-          if (data.body === null) {
-            return;
-          }
-          const totalRooms = this.dataPass.totalNumberOfRooms();
+      const startDate = new Date(fetchInfo.start);
+      const endDate = new Date(fetchInfo.end);
+
+      const dates: Date[] = [];
+      for (let d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
+        dates.push(new Date(d));
+      }
+
+      const observables = dates.map((date) => this.httpService.getAllAvailableRooms(date, date));
+
+      forkJoin(observables).subscribe({
+        next: (responses) => {
           const events: EventInput[] = [];
-          events.push({
-            title: `${data.body.length} / ${totalRooms} rooms available`,
-            date: startDate,
-            className: totalRooms - data.body.length === 0 ? 'fully-booked' : 'available',
-            allDay: true,
+          responses.forEach((data, i) => {
+            if (!data.body) return;
+
+            const totalRooms = this.dataPass.totalNumberOfRooms();
+            const date = dates[i];
+
+            events.push({
+              title: `${data.body.length} / ${totalRooms} rooms available`,
+              date: date,
+              className: totalRooms - data.body.length === 0 ? 'fully-booked' : 'available',
+              allDay: true,
+            });
           });
+
           successCallback(events);
         },
         error: (err) => failureCallback(err),

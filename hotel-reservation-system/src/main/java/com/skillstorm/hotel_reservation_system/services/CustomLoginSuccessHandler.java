@@ -24,7 +24,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         this.userRepository = userRepository;
     }
 
-    @Value("${frontend.base-url}")
+    @Value("${FRONTEND_BASE_URL}")
     private String frontendBaseUrl;
 
     @Override
