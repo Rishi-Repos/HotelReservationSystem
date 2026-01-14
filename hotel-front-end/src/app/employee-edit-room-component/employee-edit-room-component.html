@@ -1,5 +1,5 @@
 <section>
-  <form [formGroup]="editRoomForm" (ngSubmit)="editRoomFormSubmit()">
+  <form [formGroup]="editRoomForm" (ngSubmit)="openConfirmationModal()">
     <div class="edit-form__div">
       <!-- Selector for if a room or room type is being updated -->
       <p>Are you updating a room or a room type?</p>
@@ -26,6 +26,8 @@
     </div>
     <div class="edit-form__div">
       <!-- Selector for add, editing, or removing a room or room type -->
+      @if (roomRadio?.value !== '') {
+
       <p>Are you adding, removing, or editing the {{ roomRadio?.value }}?</p>
       <div>
         <label for="editTypeRadio">Create</label>
@@ -37,6 +39,7 @@
           value="Create"
         />
       </div>
+
       <div>
         <label for="editTypeRadio">Edit</label>
         <input
@@ -57,9 +60,13 @@
           value="Delete"
         />
       </div>
+      }
     </div>
-    @if (roomRadio?.value === 'Room Type') { @if (editTypeRadio?.value === 'Edit' ||
-    editTypeRadio?.value === 'Delete') {
+
+    <!-- If roomRadio is a Room Type, the Room Description section is displayed and is editable.
+     Then if the Room Description is to be edited or deleted, the selectedRoomDescription select field becomes available -->
+    @if (roomRadio?.value === 'Room Type' && editTypeRadio?.value !== '') { @if
+    (editTypeRadio?.value === 'Edit' || editTypeRadio?.value === 'Delete') {
     <div class="edit-form__div">
       <p>Select the {{ roomRadio?.value }} to {{ editTypeRadio?.value }}:</p>
       <select formControlName="selectedRoomDescription">
@@ -69,6 +76,7 @@
       </select>
     </div>
     }
+    <!-- All the fields for creating/editing a Room Description -->
     <div class="edit-form__div">
       <label for="bedStyleControl"
         >How many beds will the room have, and of what style? (King, Queen, twin, etc).
@@ -123,6 +131,8 @@
       <label for="priceControl">What is the price of the room (in Galleons)? </label>
       <input type="number" id="priceControl" name="priceControl" formControlName="priceControl" />
     </div>
+    <!-- If the roomRadio is a Room, then the following fields are displayed.
+     Then, if the action is to edit or delete, the selectedRoom field is displayed -->
     } @else { @if (editTypeRadio?.value === 'Edit' || editTypeRadio?.value === 'Delete') {
     <div class="edit-form__div">
       <p>Select the {{ roomRadio?.value }} to {{ editTypeRadio?.value }}:</p>
@@ -132,8 +142,10 @@
         }
       </select>
     </div>
+    <!-- Prevents the fields from being visible before roomRadio and editTypeRadio are selected -->
     } @if (roomRadio?.value !== '' && editTypeRadio?.value !== '') {
     <div class="edit-form__div">
+      <!-- Selects the room description that will be connected to the room. -->
       <p>What is the room type to be associated with the room?</p>
       <select formControlName="selectedRoomDescription" [compareWith]="compareDescriptions">
         @for (option of roomDescriptionOptions; track $index) {
@@ -141,6 +153,7 @@
         }
       </select>
     </div>
+    <!-- The room description fields. These are disabled because they should not be edited as part of the room creation/edit. -->
     <div class="edit-form__div">
       <label for="bedStyleControl"
         >How many beds will the room have, and of what style? (King, Queen, twin, etc).
@@ -196,9 +209,27 @@
       <input type="number" id="priceControl" name="priceControl" formControlName="priceControl" />
     </div>
     } } @if(editTypeRadio?.value !== '' && roomRadio?.value !== 0) {
+    <!-- Submit button. -->
     <button [disabled]="editRoomForm.invalid" type="submit">
       {{ editTypeRadio?.value }} {{ roomRadio?.value }}
     </button>
     }
   </form>
+  <div class="modal" *ngIf="showConfirmation">
+    <div class="modal__content">
+      <p class="modal__p">Are you sure you want to submit the changes?</p>
+      <div class="modal__buttons">
+        <button class="modal__btn" (click)="confirmSubmit()">Yes</button>
+        <button class="modal__btn" (click)="cancelSubmit()">No</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal" *ngIf="showSuccessMessage">
+    <div class="modal__content">
+      <p class="modal__p">Success! You can close this window.</p>
+      <div class="modal__buttons">
+        <button (click)="closeSuccessModal()">Close</button>
+      </div>
+    </div>
+  </div>
 </section>

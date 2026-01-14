@@ -51,3 +51,18 @@ button {
   /* width: 30%;
   align-self: flex-end; */
 }
+
+.modal__p {
+  width: 100%;
+}
+
+.modal__buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 3vw;
+  width: 100%;
+}
+
+.modal__btn {
+  width: 40%;
+}
