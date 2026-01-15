@@ -171,20 +171,21 @@ export class HttpService {
       .pipe(map((response) => response.body));
   }
 
-  createManager(user: User): Observable<User> {
+  createManager(user: User): Observable<User | null> {
     return this.http
-      .post<User>(this.baseURL + 'users/manager', {
+      .post<User>(this.baseURL + 'users/manager', user, {
         observe: 'response',
         withCredentials: true,
       })
-      .pipe((response) => response);
+      .pipe(map((response) => response.body));
   }
 
-  createAdmin(user: User): Observable<User> {
+  createAdmin(user: User): Observable<User | null> {
     return this.http
-      .post<User>(this.baseURL + 'users/admin', {
+      .post<User>(this.baseURL + 'users/admin', user, {
         observe: 'response',
+        withCredentials: true,
       })
-      .pipe((response) => response);
+      .pipe(map((response) => response.body));
   }
 }

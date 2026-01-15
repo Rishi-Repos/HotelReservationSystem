@@ -61,7 +61,11 @@ export class ManageUsersComponent {
         // Enforces that it must be a 10 digit number.
         Validators.pattern('^[0-9]{10}$'),
       ]),
-      emailControl: new FormControl('', [Validators.required]),
+      emailControl: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(255),
+        Validators.minLength(2),
+      ]),
       onboardingControl: new FormControl(false),
     });
     this.getAllUsers();
@@ -208,7 +212,47 @@ export class ManageUsersComponent {
     } else if (this.editType() === 'create') {
       // If the submission type is create, hits this endpoint and creates a new user.
       // Sends a request dependent on the role (guest, manager, employee).
-      if (this.roleControl?.value === 'guest') {
+      if (this.roleControl?.value === 'manager') {
+        const createdUser = new User(
+          0,
+          this.roleControl?.value,
+          this.emailControl?.value,
+          this.firstNameControl?.value,
+          this.middleNameControl?.value,
+          this.lastNameControl?.value,
+          this.homeAddressControl?.value,
+          this.phoneNumberControl?.value,
+          true,
+          false
+        );
+        this.httpService.createManager(createdUser).subscribe({
+          next: () => {
+            this.openSuccessModal();
+            this.getAllUsers();
+          },
+          error: (err) => console.error(err),
+        });
+      } else if (this.roleControl?.value === 'admin') {
+        const createdUser = new User(
+          0,
+          this.roleControl?.value,
+          this.emailControl?.value,
+          this.firstNameControl?.value,
+          this.middleNameControl?.value,
+          this.lastNameControl?.value,
+          this.homeAddressControl?.value,
+          this.phoneNumberControl?.value,
+          true,
+          false
+        );
+        this.httpService.createAdmin(createdUser).subscribe({
+          next: () => {
+            this.openSuccessModal();
+            this.getAllUsers();
+          },
+          error: (err) => console.error(err),
+        });
+      } else {
         const createdUser = new User(
           0,
           this.roleControl?.value,

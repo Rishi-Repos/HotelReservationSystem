@@ -65,6 +65,10 @@ button {
   /* align-items: center; */
 }
 
+.edit-modal__content {
+  width: 70%;
+}
+
 .edit-form__div {
   display: flex;
   justify-content: space-between;

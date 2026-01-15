@@ -25,7 +25,7 @@ export class EmployeeAvailableRoomsComponent {
     // Options used for creating the FullCalendar
     plugins: [dayGridPlugin, listWeek],
     eventTimeFormat: {},
-    height: '100vw',
+    height: '80vh',
     initialView: window.innerWidth < 900 ? 'listWeek' : 'dayGridMonth',
     views: {
       dayGridMonth: {
