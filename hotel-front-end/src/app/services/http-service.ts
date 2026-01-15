@@ -153,4 +153,12 @@ export class HttpService {
       })
       .pipe(map((response) => response.body));
   }
+
+  getAllUsers(): Observable<User[]> {
+    return this.http
+      .get<User[]>(this.baseURL + 'users', {
+        observe: 'response',
+      })
+      .pipe(map((response) => response.body ?? []));
+  }
 }
