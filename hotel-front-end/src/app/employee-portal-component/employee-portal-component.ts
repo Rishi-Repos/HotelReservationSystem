@@ -20,8 +20,14 @@ export class EmployeePortalComponent {
   // userRole: string = '';
   userRole = signal<string>('');
 
+  // This updates the selection element to display the available-rooms component.
   displayAvailableRoomsComponent(): void {
     this.selectionElement = 'available-rooms';
+  }
+
+  // This routes the employee to the search page.
+  displaySearchComponent(): void {
+    this.router.navigate(['/search']);
   }
 
   //This updates the selection element to display the edit-rooms component.
