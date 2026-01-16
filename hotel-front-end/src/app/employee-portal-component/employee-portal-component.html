@@ -4,6 +4,8 @@
     <app-employee-available-rooms-component />
     } @case ('edit-rooms') {
     <app-employee-edit-room-component />
+    } @case ('manage-users') {
+    <app-manage-users-component />
     } }
   </div>
   <div class="portal__btns">
@@ -12,6 +14,10 @@
     <button (click)="displayEditRoomsComponent()">Reservation History</button>
     <button (click)="displayEditRoomsComponent()">Book a guest</button>
 
+    @if (this.userRole() === 'admin') {
+
     <button (click)="displayEditRoomsComponent()">Edit Rooms</button>
+    <button (click)="displayManageUsersComponent()">Manage Users</button>
+    }
   </div>
 </section>

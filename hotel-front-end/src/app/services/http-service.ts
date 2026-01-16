@@ -145,6 +145,16 @@ export class HttpService {
     });
   }
 
+  // Gets all users from the server
+  getAllUsers(): Observable<User[]> {
+    return this.http
+      .get<User[]>(this.baseURL + 'users', {
+        observe: 'response',
+      })
+      .pipe(map((response) => response.body ?? []));
+  }
+
+  // Sends a put request to the server for a specific user.
   updateProfile(user: User): Observable<User | null> {
     return this.http
       .put<User>(this.baseURL + 'users/' + user.id, user, {
@@ -152,5 +162,55 @@ export class HttpService {
         withCredentials: true,
       })
       .pipe(map((response) => response.body));
+  }
+
+  // Sends a post request to the server to create a guest user.
+  createGuest(user: User): Observable<User | null> {
+    return this.http
+      .post<User>(this.baseURL + 'users', user, {
+        observe: 'response',
+        withCredentials: true,
+      })
+      .pipe(map((response) => response.body));
+  }
+
+  // Sends a post request to the server to create a manager user.
+  createManager(user: User): Observable<User | null> {
+    return this.http
+      .post<User>(this.baseURL + 'users/manager', user, {
+        observe: 'response',
+        withCredentials: true,
+      })
+      .pipe(map((response) => response.body));
+  }
+
+  // Sends a post request to the server to create a admin user.
+  createAdmin(user: User): Observable<User | null> {
+    return this.http
+      .post<User>(this.baseURL + 'users/admin', user, {
+        observe: 'response',
+        withCredentials: true,
+      })
+      .pipe(map((response) => response.body));
+  }
+
+  // Sends the delete request of the specified user to the server.
+  deactivateUser(id: number): Observable<User | null> {
+    return this.http
+      .delete<User>(this.baseURL + 'users/' + id, {
+        observe: 'response',
+        withCredentials: true,
+      })
+      .pipe(map((response) => response.body));
+  }
+
+  // Sends the reactivation request of the specified user to the server.
+  reactivateUser(id: number): Observable<User | null> {
+    return this.http
+      .put<User>(this.baseURL + 'users/reactivate/' + id, {
+        observe: 'response',
+        withCredentials: true,
+      })
+      .pipe(map((response) => response));
   }
 }
