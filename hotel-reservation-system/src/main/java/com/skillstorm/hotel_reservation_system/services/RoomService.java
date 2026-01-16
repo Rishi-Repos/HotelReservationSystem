@@ -3,10 +3,12 @@ package com.skillstorm.hotel_reservation_system.services;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.skillstorm.hotel_reservation_system.enums.RoomColors;
 import com.skillstorm.hotel_reservation_system.models.Room;
 import com.skillstorm.hotel_reservation_system.repositories.RoomRepository;
 
@@ -54,6 +56,14 @@ public class RoomService {
                 .filter(room -> room.isDeleted() == false)
                 .collect(Collectors.toList());
         // Will need a bookingService to find all rooms that are booked for this date.
+
+        // MW IMPORTANT
+        // The below is to test that the filtering is working.
+        // This needs to be replaced with a comparison to the booking table
+        activeRooms = rooms.stream().filter(room -> (room.getId() % 2 == 0)).collect(Collectors.toList());
+        activeRooms = rooms.stream().filter(room -> (room.getId() % 2 == 0))
+                .filter(room -> (room.getRoomDescription().getRoomColor() != RoomColors.Griffindor))
+                .collect(Collectors.toList());
 
         return activeRooms;
     }

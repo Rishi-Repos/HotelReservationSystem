@@ -36,8 +36,8 @@ p {
 }
 
 .room__unavailable {
-  color: #6b1f1a;
-  font-weight: 500;
+  color: red;
+  font-weight: 400;
 }
 
 img {
