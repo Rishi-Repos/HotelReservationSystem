@@ -55,6 +55,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/checkout/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/booking").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/booking").permitAll()
+
                         .anyRequest().authenticated())
 
                 .oauth2Login(oauth2 -> oauth2
