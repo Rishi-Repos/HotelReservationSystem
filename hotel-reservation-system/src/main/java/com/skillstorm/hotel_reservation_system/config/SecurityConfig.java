@@ -74,14 +74,14 @@ public class SecurityConfig {
                                                 .userInfoEndpoint(userInfo -> userInfo
                                                                 .oidcUserService(customUserLoginService))
                                                 .successHandler(customLoginSuccessHandler)
-                                                .failureUrl("http://localhost:4200/login/error"))
+                                                .failureUrl("http://thethreebroomsticks.s3-website-us-east-1.amazonaws.com/login/error"))
 
                                 .logout(logout -> logout
                                                 .logoutUrl("/logout")
                                                 .invalidateHttpSession(true)
                                                 .clearAuthentication(true)
                                                 .deleteCookies("JSESSIONID")
-                                                .logoutSuccessUrl("http://localhost:4200/homepage"))
+                                                .logoutSuccessUrl("http://thethreebroomsticks.s3-website-us-east-1.amazonaws.com/homepage"))
 
                                 .exceptionHandling(exceptions -> exceptions
                                                 // Handles unauthorized requests and returns a 401 error
@@ -99,7 +99,7 @@ public class SecurityConfig {
                                                 }))
                                 .cors(cors -> cors.configurationSource(request -> {
                                         CorsConfiguration config = new CorsConfiguration();
-                                        config.setAllowedOrigins(List.of("http://localhost:4200"));
+                                        config.setAllowedOrigins(List.of("http://thethreebroomsticks.s3-website-us-east-1.amazonaws.com/"));
                                         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                                         config.setAllowCredentials(true);
                                         config.setAllowedHeaders(List.of("*"));
