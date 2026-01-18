@@ -15,7 +15,7 @@ export class HeaderComponent {
   }
 
   login() {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = 'http://thethreebroomsticks.s3-website-us-east-1.amazonaws.com:80/oauth2/authorization/google';
   }
 
   getLoginDetails() {
