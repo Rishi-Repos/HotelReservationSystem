@@ -67,6 +67,11 @@ public class SecurityConfig {
                                                 // user
                                                 // with an admin role.
                                                 // This is because only admins should be able to create a new User.
+                                                       
+                                                .requestMatchers(HttpMethod.POST, "/checkout/**").permitAll()
+
+                                                .requestMatchers(HttpMethod.GET, "/booking").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/booking").permitAll()
 
                                                 .anyRequest().authenticated())
 
