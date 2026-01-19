@@ -15,7 +15,7 @@ import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.annotation.PostConstruct;
 
 @RestController
-@RequestMapping("/checkout")
+@RequestMapping("/api/checkout")
 public class CheckoutController {
 
     @Value("${FRONTEND_BASE_URL}")

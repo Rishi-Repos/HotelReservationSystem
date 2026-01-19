@@ -30,6 +30,7 @@ export class HttpService {
     return this.http.get<Room[]>(this.baseURL + 'rooms/availability', {
       observe: 'response',
       params: params,
+      withCredentials: true,
     });
   }
 
@@ -70,6 +71,7 @@ export class HttpService {
   getAllRoomDescriptions(): Observable<HttpResponse<RoomDescription[]>> {
     return this.http.get<RoomDescription[]>(this.baseURL + 'room-descriptions', {
       observe: 'response',
+      withCredentials: true,
     });
   }
 
@@ -85,6 +87,7 @@ export class HttpService {
     return this.http.get<RoomDescription[]>(this.baseURL + 'room-descriptions/availability', {
       observe: 'response',
       params: params,
+      withCredentials: true,
     });
   }
 
@@ -97,6 +100,7 @@ export class HttpService {
     params = params.append('roomDescriptionId', id.toString());
     return this.http.get<boolean>(this.baseURL + 'room-descriptions/room-available', {
       params: params,
+      withCredentials: true,
     });
   }
 
@@ -153,6 +157,7 @@ export class HttpService {
     return this.http
       .get<User[]>(this.baseURL + 'users', {
         observe: 'response',
+        withCredentials: true,
       })
       .pipe(map((response) => response.body ?? []));
   }
