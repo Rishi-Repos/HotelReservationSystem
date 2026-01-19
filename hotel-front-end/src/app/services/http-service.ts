@@ -9,7 +9,7 @@ import { Room } from '../models/room/room';
   providedIn: 'root',
 })
 export class HttpService {
-  baseURL: string = 'http://thethreebroomsticks.us-east-1.elasticbeanstalk.com:80/';
+  baseURL: string = '/api/';
 
   constructor(private http: HttpClient) {}
 
@@ -72,7 +72,7 @@ export class HttpService {
 
   getAllAvailableRoomDescriptions(
     startDate: string,
-    endDate: string
+    endDate: string,
   ): Observable<HttpResponse<RoomDescription[]>> {
     // const isoStartDate = startDate.toISOString().split('T')[0];
     // const isoEndDate = endDate.toISOString().split('T')[0];
@@ -116,7 +116,7 @@ export class HttpService {
         {
           observe: 'response',
           withCredentials: true,
-        }
+        },
       )
       .pipe(map((response) => response.body));
   }
