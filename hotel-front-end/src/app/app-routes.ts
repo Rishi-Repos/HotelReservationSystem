@@ -34,7 +34,7 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-  },
+  }
   // {
   //   path: 'contact',
   //   component: ContactComponent,

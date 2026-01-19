@@ -10,7 +10,7 @@ import { Booking } from '../models/booking/booking';
   providedIn: 'root',
 })
 export class HttpService {
-  baseURL: string = 'http://thethreebroomsticks.us-east-1.elasticbeanstalk.com:80/';
+  baseURL: string = '/api/';
 
   constructor(private http: HttpClient) {}
 
