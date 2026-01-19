@@ -37,7 +37,9 @@ public class SecurityConfig {
                                                 .permitAll()
                                                 // Request matcher for AWS ELB Health Check
                                                 .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
-
+                                                
+                                                .requestMatchers(HttpMethod.GET, "/login/oauth2/code/google").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/login/oauth2/code/google").permitAll()
                                                 // Request matchers for the /rooms endpoint.
                                                 .requestMatchers(HttpMethod.GET, "/api/rooms").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/rooms/availability").permitAll()
