@@ -312,5 +312,10 @@ export class BookingListComponent {
     this.showEditModal = false;
   }
 
-  editBookingFormSubmit(): void {}
+  editBookingFormSubmit(): void {
+    if (this.editType() === 'edit') {
+    } else if (this.editType() === 'delete') {
+    } else if (this.editType() === 'reactivate') {
+    }
+  }
 }
