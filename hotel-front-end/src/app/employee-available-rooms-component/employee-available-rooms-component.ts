@@ -16,7 +16,10 @@ import listWeek from '@fullcalendar/list';
   styleUrl: './employee-available-rooms-component.css',
 })
 export class EmployeeAvailableRoomsComponent {
-  constructor(private httpService: HttpService, private dataPass: DataPassService) {
+  constructor(
+    private httpService: HttpService,
+    private dataPass: DataPassService,
+  ) {
     // On page reload, checks with the backend and determines the total number of in the hotel (in case more are added later)
     this.setTotalNumberOfRooms();
   }

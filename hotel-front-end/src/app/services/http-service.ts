@@ -227,6 +227,7 @@ export class HttpService {
     return this.http
       .get<Booking[]>(this.baseURL + 'booking', {
         observe: 'response',
+        withCredentials: true,
       })
       .pipe(map((response) => response.body));
   }
