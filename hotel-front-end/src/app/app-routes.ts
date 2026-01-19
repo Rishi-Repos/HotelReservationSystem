@@ -12,7 +12,7 @@ import { ProfileComponent } from './profile-component/profile-component';
 
 export const routes: Routes = [
   {
-    path: '/',
+    path: 'homepage',
     component: FrontPageComponent,
   },
   {
